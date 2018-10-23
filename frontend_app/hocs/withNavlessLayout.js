@@ -13,7 +13,7 @@ export default ComposedComponent =>
     render() {
       return (
         <div>
-          <Header title="eFounders" />
+          <Header title="ChatApp" />
           <ComposedComponent {...this.props} />
           <style jsx global>{`
             body {

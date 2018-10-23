@@ -18,7 +18,7 @@ export default ComposedComponent => {
     render() {
       return (
         <div>
-          <Header title="eFounders" />
+          <Header title="ChatApp" />
           <Navigation loggedIn={this.props.loggedIn} />
           <ComposedComponent {...this.props} />
           <style jsx global>{`
