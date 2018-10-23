@@ -12,29 +12,52 @@ class Chatroom extends Component {
 
   static propTypes = {
 
+    user: PropTypes.object,
     loading: PropTypes.bool,
     chatroom: PropTypes.object,
     chatroomId: PropTypes.string,
     addMessage: PropTypes.func,
   }
 
+  scrollToBottom = () => {
+    if(this.messagesEnd) {
+
+      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+  
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+  
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
   sendMessage = async (e) => {
+
     e.preventDefault()
+
     const message = document.getElementById('message_input').value
   
-    if (message === '') { alert("Veuillez entrer un message") }
-
+    if (!message || message === '') { 
+      
+      alert("Veuillez entrer un message") 
+      return;
+    }
 
     try{
 
       await this.props.addMessage(message, this.props.chatroomId);
-
+      document.getElementById('message_input').value = ''
+      
     } catch (err) {
 
       console.log(err)
       alert("Une erreur s'est produite lors de l'envoie de votre message")
     }
 
+    
   }
 
   render() {
@@ -61,7 +84,7 @@ class Chatroom extends Component {
         </div>
 
         <div className="messages-box" >
-          {this.props.chatroom.messages.map((message) => {
+          {this.props.chatroom.messages.slice(0).reverse().map((message) => {
 
             return (
               <div key={message.id} className="row">
@@ -81,7 +104,9 @@ class Chatroom extends Component {
               </div>
             )
           })}
-        
+          <div style={{ float:"left", clear: "both" }}
+            ref={(el) => { this.messagesEnd = el; }}>
+          </div>
         </div>
     
         <div className="message-input-box">
@@ -133,14 +158,7 @@ graphql(AddMessage, {
     addMessage: (text, chatroomId) => {
       return mutate({
         variables: { text, chatroomId },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          addMessage: {
-            __typename: 'Message',
-            text,
-            createdAt: new Date().toString(),
-          }
-        }
+    
       })
     }
   }),

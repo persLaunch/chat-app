@@ -27,6 +27,7 @@ const addMessageResolvers = {
                     chatroomId,
                     ownerName: owner.username,
                     userId: req.auth.userId,
+                    createdAt: new Date(),
                 };
 
                 try {

@@ -55,6 +55,9 @@ const sharedTypesResolvers = {
                 messages = await Message.findAll({ 
                     where: { chatroomId: dataObj.id },
                     limit: 10,
+                    order: [
+                        ['createdAt', 'DESC'],
+                    ],
                 });
 
                 /* messages = messages.map(async (messageDataOriginal) => {
