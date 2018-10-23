@@ -1,11 +1,12 @@
 const { makeExecutableSchema } = require('graphql-tools');
 const { merge } = require('lodash');
 
-
-const sharedTypes = require('./schemas/sharedTypes');
 const login = require('./schemas/login');
 const register = require('./schemas/register');
+const sharedTypes = require('./schemas/sharedTypes');
 const getUserProfile = require('./schemas/getUserProfile');
+const chatrooms = require('./schemas/chatrooms');
+const chatroom = require('./schemas/chatroom');
 
 const rootSchema = `
 
@@ -16,9 +17,14 @@ const rootSchema = `
     version: String!
   }
 
+  type Subscription {
+    version: String!
+  }
+
   schema {
     query: Query
     mutation: Mutation
+    subscription: Subscription
   }
 `;
 
@@ -30,26 +36,35 @@ const rootResolvers = {
     Mutation: {      
         version: () => require('../../../package.json').version, /* eslint global-require:0 */
     },
-  
+    Subscription: {
+        version: () => require('../../../package.json').version, /* eslint global-require:0 */
+    },
 };
 
 const schema = makeExecutableSchema({
     typeDefs: [
         rootSchema,
         sharedTypes.sharedTypesTypeDef,
-
+        
         register.registerTypeDef,
         login.loginTypeDef,
         getUserProfile.getUserProfileTypeDef,
+        
+        chatrooms.chatroomsTypeDef,
+        chatroom.chatroomTypeDef,
         
     ],
     resolvers: merge(
         rootResolvers,
         sharedTypes.sharedTypesResolvers,
-      
+
         register.registerResolvers,
         login.loginResolvers,
         getUserProfile.getUserProfileResolvers,
+
+        chatrooms.chatroomsResolvers,
+        chatroom.chatroomResolvers,
+      
     ),
 });
 

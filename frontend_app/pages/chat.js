@@ -3,7 +3,7 @@ import React from 'react'
 import { pageWithUserData } from '../hocs/page'
 import Unauthorized from '../components/Unauthorized/Unauthorized'
 
-export default pageWithUserData(({ url, getUserProfile, ...props }) => {
+export default pageWithUserData(({ ...props }) => {
 
   if (!props.loggedIn) {
     
@@ -14,6 +14,6 @@ export default pageWithUserData(({ url, getUserProfile, ...props }) => {
     )
   }
 
-  return <Chat user={getUserProfile} url={url} />
+  return <Chat />
 
 })
