@@ -72,8 +72,17 @@ class Chatroom extends Component {
 
 
 export default compose(
-  graphql(subNewMessage),
+  graphql(subNewMessage, {
 
+    options: (props) => {
+      return {
+        variables: { 
+          chatroomId: props.chatroomId 
+        }
+      }
+    }
+  },
+  ),
   graphql(getChatroom, {
 
     props: (props) => {

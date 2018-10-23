@@ -1,17 +1,22 @@
 
+import { withFilter } from 'graphql-subscriptions';
 import pubsub from '../subscriptions';
 
 
 const newMessageTypeDef = `
   extend type Subscription { 
-    newMessage: Message 
+    newMessage(chatroomId: ID): Message 
   }
 `;
 
 const newMessageResolvers = {
     Subscription: {
         newMessage: {
-            subscribe: () => pubsub.asyncIterator('newMessage'),
+            subscribe: withFilter(() => pubsub.asyncIterator('newMessage'),
+                (payload, args) => {
+                  
+                    return payload.newMessage.chatroomId === parseInt(args.chatroomId, 10);
+                }),
         },
     },
 };
