@@ -33,6 +33,7 @@ class PushMessage extends Component {
         }
       })
 
+      document.getElementById('message_input').value = ''
       this.setState(() => { text: '' });
     }catch(err) {
 

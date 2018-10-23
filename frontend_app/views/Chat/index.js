@@ -6,14 +6,16 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import Router from 'next/router'
 
+import AddChatroomButton from './components/AddChatroomButton'
+
 class Chat extends Component {
     
   static propTypes = {
 
     loading: PropTypes.bool,
     chatrooms: PropTypes.array,
+    user: PropTypes.object
   }
-
 
   enterInChatroom = (chatroomId) => {
 
@@ -42,10 +44,13 @@ class Chat extends Component {
                 {chatroom.title}
               </button>
             </div>
+            
           )
       
         }) }
 
+        <AddChatroomButton 
+        user={this.props.user}/>
         <style jsx>{`
          
         `}</style>
