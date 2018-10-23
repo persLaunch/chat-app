@@ -1,7 +1,7 @@
 {
   "name": "backend_app",
   "version": "1.0.0",
-  "description": "[Test Technique] Backend app efounder",
+  "description": "[Test Technique] Backend app efounder v1",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint src",
