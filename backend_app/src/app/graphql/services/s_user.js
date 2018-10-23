@@ -12,7 +12,7 @@ module.exports = {
             lastName, 
             username,
             signedUpAt: new Date(),
-        });
+        }).dataValues;
 
         return new Promise((resolve, reject) => {
 
@@ -22,7 +22,6 @@ module.exports = {
                     if (existingUser) { return reject(new Error('Email in use')); }
 
                     try {
-
                         const userDataValues = await User.create(user);
                         return resolve(userDataValues.dataValues);
 

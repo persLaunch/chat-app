@@ -41,7 +41,7 @@ class LoginForm extends Component {
 
         saveAccessToken(token, { path: '/', expires: 7 })
         console.log(loadAccessToken())
-        Router.push('/dashboard')
+        Router.push('/chat')
 
       }
         
