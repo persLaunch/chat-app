@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import getChatroom from '../../queries/getChatroom'
+import AddMessage from '../../mutations/addMessage'
+
 import Loader from '../../components/Loader/Loader'
 import PropTypes from 'prop-types'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 
 import Card from '../../components/Card/Card'
 
@@ -13,12 +15,32 @@ class Chatroom extends Component {
     loading: PropTypes.bool,
     chatroom: PropTypes.object,
     chatroomId: PropTypes.string,
+    addMessage: PropTypes.func,
   }
 
+  sendMessage = async (e) => {
+    e.preventDefault()
+    const message = document.getElementById('message_input').value
+  
+    if (message === '') { alert("Veuillez entrer un message") }
+
+
+    try{
+
+      await this.props.addMessage(message, this.props.chatroomId);
+
+    } catch (err) {
+
+      console.log(err)
+      alert("Une erreur s'est produite lors de l'envoie de votre message")
+    }
+
+  }
 
   render() {
     
     if (this.props.loading) {
+
       return <Loader />
     }
 
@@ -56,7 +78,7 @@ class Chatroom extends Component {
             )
           })}
         </div>
-        <form onSubmit={this.submitForm}>
+        <form onSubmit={this.sendMessage}>
 
           <div className="input-group fluid">
             <input type="text" id="message_input" placeholder="Enter your message" />
@@ -83,7 +105,7 @@ class Chatroom extends Component {
   }
 }
 
-export default graphql(getChatroom, {
+export default compose(graphql(getChatroom, {
   props: ({ data: { loading, chatroom } }) => ({
     loading,
     chatroom
@@ -94,4 +116,30 @@ export default graphql(getChatroom, {
       variables: { id: props.chatroomId }
     }
   },
-})(Chatroom)
+}),
+graphql(AddMessage, {
+  props: ({ mutate }) => ({
+    addMessage: (text, chatroomId) => {
+      return mutate({
+        variables: { text, chatroomId },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          addMessage: {
+            __typename: 'Message',
+            text,
+            createdAt,
+          }
+        }
+      })
+    }
+  }),
+  options: props => ({
+    refetchQueries: [
+      {
+        query: getChatroom,
+        variables: { id: props.chatroomId }
+      }
+    ]
+  })
+})
+)(Chatroom)
