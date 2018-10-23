@@ -7,6 +7,10 @@ const app_config = require('../../config');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 
+// configSequelize contain "operatorsAliases": false
+// source: http://docs.sequelizejs.com/manual/tutorial/querying.html
+// To avoid depracted String Operator message (it displays even if we make no mistake)
+// https://stackoverflow.com/questions/46608382/sequelize-deprecated-error-message
 const configSequelize = require('./config/config.json')[env];
 
 const db = {};
@@ -39,6 +43,8 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 
-sequelize.sync({ force: app_config.SEQUELIZE_SYNC_FORCE });
+// Initialization for prototyping...
+sequelize.sync({ force: app_config.SEQUELIZE_SYNC_FORCE }).then(() => { db.Chatroom.create({ title: 'Default Chatroom' }); });
+
 
 module.exports = db;
