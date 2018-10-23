@@ -1,3 +1,4 @@
+import pubsub from '../subscriptions';
 
 const { Message } = require('../../models');
 
@@ -33,8 +34,9 @@ const addMessageResolvers = {
                 try {
                     
                     const messageData = await Message.create(message);
+                   
+                    pubsub.publish('newMessageAdded', { messageAdded: message.dataValues });
                     
-                    console.log(messageData);
                     return messageData.dataValues;
 
                 } catch (err) {

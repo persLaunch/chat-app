@@ -1,9 +1,13 @@
+import { execute, subscribe } from 'graphql';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+
 const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 const m_passport = require('./app/middlewares/m_passport');
 const app_config = require('./config');
 const mo_redis = require('./app/modules/mo_redis');
+
 
 function setupSessionEnvironment(app) {
 
@@ -107,11 +111,18 @@ function setupPassport(app) {
     
 }
 
+function subscriptionServerInit(server, schema, wsGqlPath) {
+   
+    return new SubscriptionServer({ schema, execute, subscribe }, { server, path: wsGqlPath });
+}
+
 module.exports = {
   
     setupSessionEnvironment: app => setupSessionEnvironment(app),
     setupProxyEnvironment: app => setupProxyEnvironment(app),
     setupCORS: app => setupCORS(app),
     setupPassport: app => setupPassport(app),
+    subscriptionServerInit: (server, schema, wsGqlPath) => subscriptionServerInit(server, schema, wsGqlPath),
+    
 
 };

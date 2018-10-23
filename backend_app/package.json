@@ -49,6 +49,7 @@
     "passport-local": "^1.0.0",
     "pg": "^7.5.0",
     "redis": "^2.8.0",
-    "sequelize": "^4.39.1"
+    "sequelize": "^4.39.1",
+    "subscriptions-transport-ws": "^0.9.15"
   }
 }
