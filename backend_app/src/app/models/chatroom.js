@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
 
     Chatroom.associate = function (models) {
 
-        models.Chatroom.hasMany(models.Message, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+        models.Chatroom.hasMany(models.Message, { foreignKey: { name: 'chatroomId', allowNull: false }, onDelete: 'CASCADE' });
 
     };
   

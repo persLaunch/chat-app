@@ -10,6 +10,7 @@ query getChatroom($id: ID!) {
       id
       text
       createdAt
+      ownerName
       __typename
     } 
     __typename

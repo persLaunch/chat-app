@@ -27,6 +27,7 @@ const sharedTypesTypeDef = `
     id: ID
     text: String
     owner: User
+    ownerName: String
     createdAt: String
   }
 
@@ -55,10 +56,28 @@ const sharedTypesResolvers = {
                     where: { chatroomId: dataObj.id },
                     limit: 10,
                 });
-                
-            } catch (err) {
 
-                console.log(err);
+                /* messages = messages.map(async (messageDataOriginal) => {
+
+                    const messageData = { ...messageDataOriginal };
+
+                    try {
+
+                        const userData = await User.findOne({ where: { id: messageData.dataValues.userId } });
+                    
+                        messageData.dataValues.owner = userData.dataValues;
+                      } catch (err) { 
+
+                        console.log(err); 
+                    }
+                    
+                    console.log("messageData ",messageData.dataValues); 
+                    return messageData.dataValues;
+                }); */
+
+            } catch (err) { 
+
+                console.log(err); 
             }
 
             return messages;

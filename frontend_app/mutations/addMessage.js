@@ -1,8 +1,9 @@
 import gql from 'graphql-tag';
 
 export default gql`
-mutation add($text: String!, $chatroomId: Int!) {
+mutation addMessage($text: String!, $chatroomId: String!) {
     addMessage(text: $text, chatroomId: $chatroomId) {
+        id
         text
     }
 }

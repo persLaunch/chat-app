@@ -68,7 +68,8 @@ class Chatroom extends Component {
                   <Card  style={{ textAlign: 'center' }}>
                     <div className="content">
             
-                      <div >{message}</div>;
+                      <div >{message.owner}</div>
+                      <div >{message.text}</div>
              
                     </div>
                   </Card>
@@ -127,7 +128,7 @@ graphql(AddMessage, {
           addMessage: {
             __typename: 'Message',
             text,
-            createdAt,
+            createdAt: new Date().toString(),
           }
         }
       })
