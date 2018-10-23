@@ -25,12 +25,10 @@ class Chat extends Component {
 
   render() {
     
-    console.log(this.props)
     if (this.props.loading || !this.props.chatrooms) {
       return <Loader />
     }
 
-    console.log(this.props)
     return (
       <div
         className="container"

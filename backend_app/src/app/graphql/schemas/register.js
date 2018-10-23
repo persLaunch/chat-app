@@ -13,8 +13,6 @@ const registerResolvers = {
 
             try {
                 
-                console.log('auth', req.auth);
-
                 const user = await s_user.createUser({ email, firstName, lastName, username });
                 const token = await s_auth.register({ userId: user.id, email: user.email, password, req });
                

@@ -40,7 +40,7 @@ class LoginForm extends Component {
       } else {
 
         saveAccessToken(token, { path: '/', expires: 7 })
-        console.log(loadAccessToken())
+      
         Router.push('/chat')
 
       }

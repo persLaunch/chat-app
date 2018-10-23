@@ -16,8 +16,6 @@ const pushMessageResolvers = {
     Mutation: {
         pushMessage: async (_, { text, chatroomId }, req) => {
            
-            console.log('addMessage');
-
             if (s_auth.isAuth(req)) { 
 
                 const { userId } = req.auth;

@@ -36,8 +36,6 @@ class RegisterForm extends Component {
 
       const auth = await register(firstName, lastName, username, password, email)
         
-        
-      console.log("auth ", auth)
       const token = auth.data.register
     
       if (token === null) {
@@ -46,8 +44,7 @@ class RegisterForm extends Component {
       } else {
     
         saveAccessToken(token, { path: '/', expires: 7 })
-        console.log(loadAccessToken())
-        
+       
         Router.push('/chat')
       }
 

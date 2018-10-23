@@ -14,8 +14,6 @@ const addChatroomResolvers = {
     Mutation: {
         addChatroom: async (_, { title }, req) => {
            
-            console.log('addChatroom');
-
             if (s_auth.isAuth(req)) { 
 
                 const chatroom = {
