@@ -4,6 +4,9 @@ require('dotenv/config');
 
 module.exports = {
 
+    // JWT_AUTH
+    JWT_SECRET_TOKEN: process.env.APPNAME_JWT_SECRET_TOKEN,
+    
     // FRONTEND
     FRONTEND_HOSTNAME: process.env.APPNAME_FRONTEND_HOSTNAME,
   

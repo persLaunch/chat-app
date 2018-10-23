@@ -11,6 +11,7 @@ const expressGraphQL = require('express-graphql');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const schema = require('./app/graphql');
+const m_passport = require('./app/middlewares/m_passport');
 
 const app_config = require('./config');
 const funcSetup = require('./setup');
@@ -34,11 +35,14 @@ funcSetup.setupProxyEnvironment(app);
 // CORS set 'Access-Control-Allow-Origin' = client pour browser
 funcSetup.setupCORS(app);
 
+// PASSPORT Initialization
+funcSetup.setupPassport(app);
+
 // Server Init
 app.server = http.createServer(app);
 
 // GRAPHQL
-app.use('/graphql', expressGraphQL({
+app.use('/graphql', m_passport.middlewarePassportJWT, expressGraphQL({
     schema,
     graphiql: true,
 }));
