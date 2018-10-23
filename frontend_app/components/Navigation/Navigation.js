@@ -25,7 +25,7 @@ export default class Navigation extends Component {
             style={{ marginRight: 5 }}
           />
           <Link prefetch href="/">
-            <a className="logo logo-container">Plate</a>
+            <a className="logo logo-container">eFounders</a>
           </Link>
           {this.props.loggedIn ? (
             <span className="hidden-sm">

@@ -12,7 +12,6 @@ export default function Header({ title }) {
       <meta name="theme-color" content="#343f53" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 
-      <link rel="shortcut icon" href="/static/img/plateLogo.png" />
       <link href="/static/css/nprogress.css" rel="stylesheet" />
       <link href="/static/css/custom_bootstrap.css" rel="stylesheet" />
       <link href="/static/css/button_action.css" rel="stylesheet" />
