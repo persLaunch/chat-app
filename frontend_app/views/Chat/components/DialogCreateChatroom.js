@@ -25,16 +25,15 @@ class DialogCreateChatroom extends Component {
 
         await this.props.addChatroom(
           chatroomTitle,
-          this.props.user.id
         )
 
         alert("Chatroom du nom de " + chatroomTitle + " a été créé !")
+        this.props.closeDialog()
       }catch (err) {
 
         alert("Une erreur s'est produite")
       }
 
-      this.props.closeDialog()
     }
 
     render() {

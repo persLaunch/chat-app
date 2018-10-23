@@ -1,6 +1,6 @@
 {
   "name": "backend_app",
-  "version": "2.0.0",
+  "version": "2.0.0npm ",
   "description": "[Test Technique] Backend app efounder v1",
   "main": "src/index.js",
   "scripts": {

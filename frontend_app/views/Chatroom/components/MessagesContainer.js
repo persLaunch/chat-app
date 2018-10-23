@@ -25,13 +25,14 @@ class MessagesContainer extends Component {
         
       <div className="messages-box" >
         {this.props.chatroom.messages.slice(0).reverse().map((message) => {
-
+          const dateTab =  message.createdAt.split(' ')
+          const date = dateTab[0] +' '+dateTab[2] +' '+dateTab[3] +' '+dateTab[4]
           return (
             <div key={message.id} className="row">
               <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
                     
                 <Card  style={{ textAlign: 'center' }}>
-                  {`${message.ownerName}:`}
+                  {`${message.ownerName}: ${date}`}
                   <div className="content">
             
                     <div >{message.text}</div>

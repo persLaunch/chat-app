@@ -32,11 +32,8 @@ export default class Navigation extends Component {
               <Link prefetch href="/">
                 <a className="nav-link desktop-nav-link">Home</a>
               </Link>
-              <Link prefetch href="/dashboard">
-                <a className="nav-link desktop-nav-link">Dashboard</a>
-              </Link>
-              <Link prefetch href="/account">
-                <a className="nav-link desktop-nav-link">Account</a>
+              <Link prefetch href="/chat">
+                <a className="nav-link desktop-nav-link">Chat</a>
               </Link>
               <span className="nav-link">|</span>
               <a
@@ -70,11 +67,8 @@ export default class Navigation extends Component {
                 <Link href="/">
                   <a className="nav-link mobile-nav-link">Home</a>
                 </Link>
-                <Link href="/dashboard">
-                  <a className="nav-link mobile-nav-link">Dashboard</a>
-                </Link>
-                <Link href="/account">
-                  <a className="nav-link mobile-nav-link">Account</a>
+                <Link href="/chat">
+                  <a className="nav-link mobile-nav-link">Chat</a>
                 </Link>
                 <a
                   className="nav-link mobile-nav-link"

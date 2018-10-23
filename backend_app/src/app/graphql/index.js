@@ -9,6 +9,7 @@ const sharedTypes = require('./schemas/sharedTypes');
 const getUserProfile = require('./schemas/getUserProfile');
 const chatrooms = require('./schemas/chatrooms');
 const chatroom = require('./schemas/chatroom');
+const addChatroom = require('./schemas/addChatroom');
 
 const newMessage = require('./schemas/newMessage');
 const pushMessage = require('./schemas/pushMessage');
@@ -59,9 +60,11 @@ const schema = makeExecutableSchema({
         
         chatrooms.chatroomsTypeDef,
         chatroom.chatroomTypeDef,
+        addChatroom.addChatroomTypeDef,
         
         newMessage.newMessageTypeDef,
         pushMessage.pushMessageTypeDef,
+
 
     ],
     resolvers: merge(
@@ -74,6 +77,7 @@ const schema = makeExecutableSchema({
 
         chatrooms.chatroomsResolvers,
         chatroom.chatroomResolvers,
+        addChatroom.addChatroomResolvers,
       
         newMessage.newMessageResolvers,
         pushMessage.pushMessageResolvers,

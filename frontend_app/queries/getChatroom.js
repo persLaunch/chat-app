@@ -2,8 +2,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-query getChatroom {
-    chatroom(id: "1") {
+query getChatroom($id: ID) {
+    chatroom(id: $id) {
     id
     title
     messages {

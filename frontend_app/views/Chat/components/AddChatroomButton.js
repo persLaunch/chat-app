@@ -43,7 +43,7 @@ class AddChatroomButton extends Component {
           />
         </Modal>
     
-				<button className="button-action button-fix" type="button" onClick={this.clickCreateDialog} >Create a Manga</button>
+				<button className="button-action button-fix" type="button" onClick={this.clickCreateDialog} >Create a Chatroom</button>
 
     <style jsx="true">{`
 

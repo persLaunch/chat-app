@@ -20,7 +20,7 @@ export default class Footer extends Component {
               onClick={this.goChat}
               style={{ cursor: 'pointer' }}
             >
-             Entrer dans le chat
+             Enter in the chat
             </a>
           </div>
        
