@@ -124,10 +124,19 @@ class Chatroom extends Component {
           font-weight: bolder;
         }
 
+        .button-action {
+          width: 100%;
+          margin-top: 10px;
+          margin-right: 0px;
+          margin-left: 0px;
+          margin-bottom: 10px;
+        }
+        
         .message-input-box {
           background: #FFFFFF;
-
+          margin: 10px;
         }
+        
         .messages-box {
           height: 300px;
           overflow: scroll;
