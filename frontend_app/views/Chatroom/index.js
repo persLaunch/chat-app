@@ -48,6 +48,7 @@ class Chatroom extends Component {
 
     return (
       <div className="container">
+      
         <div className="row">
           <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
             <Card style={{ textAlign: 'center' }}>
@@ -65,11 +66,13 @@ class Chatroom extends Component {
             return (
               <div key={message.id} className="row">
                 <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                  
                   <Card  style={{ textAlign: 'center' }}>
+                    {`${message.ownerName}:`}
                     <div className="content">
             
-                      <div >{message.owner}</div>
                       <div >{message.text}</div>
+                      <div ></div>
              
                     </div>
                   </Card>
@@ -78,24 +81,31 @@ class Chatroom extends Component {
               </div>
             )
           })}
+        
         </div>
-        <form onSubmit={this.sendMessage}>
+    
+        <div className="message-input-box">
+          <form onSubmit={this.sendMessage}>
 
-          <div className="input-group fluid">
-            <input type="text" id="message_input" placeholder="Enter your message" />
-          </div>
-          <button className="button-action"> Send </button>
-        </form>
-     
+            <div className="input-group fluid">
+              <textarea type="text" id="message_input" placeholder="Enter your message" />
+            </div>
+            <button className="button-action"> Send </button>
+          </form>
+        </div>
         <style jsx>{`
         .content {
           font-size: 20px;
           font-weight: bolder;
         }
 
+        .message-input-box {
+          background: #FFFFFF;
+
+        }
         .messages-box {
           height: 300px;
-          background: #FFFFFF;
+          overflow: scroll;
 
         }
    
