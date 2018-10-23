@@ -9,7 +9,8 @@
     "clean": "rm -rf dist",
     "build": "npm run clean && babel src -s -D -d dist",
     "production": "npm run build && node dist/index.js",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "test": "jest"
   },
   "author": "Vincent XXX",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.6.0",
     "nodemon": "^1.18.4"
   },
   "dependencies": {
@@ -41,7 +43,6 @@
     "graphql-postgres-subscriptions": "^1.0.4",
     "graphql-subscriptions": "^1.0.0",
     "graphql-tools": "^4.0.2",
-    "jest": "^23.6.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
