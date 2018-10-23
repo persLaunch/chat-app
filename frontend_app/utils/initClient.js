@@ -2,11 +2,17 @@ import { createHttpLink } from 'apollo-link-http';
 
 import { ApolloClient} from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, from } from 'apollo-link';
+import { ApolloLink, from, split } from 'apollo-link';
 import fetch from 'isomorphic-fetch'
 import { loadAccessToken } from './cookieUtils'
 import cookie from 'cookie'
 
+import { HttpLink } from 'apollo-link-http';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
+
+import { SubscriptionClient } from "subscriptions-transport-ws";
+const WebSocket = require('isomorphic-ws')
 
 let apolloClient = null
 
@@ -17,7 +23,11 @@ if (!process.browser) {
 
 function _initClient(headers, initialState) {
 
-  // Jamais appelé tant qu'on ne fait pas d'appel GraphQL
+  /**
+   * AUTH MIDDLEWARE
+   */
+
+  // Apollo -> Called only for GraphQL call
   const authMiddleware = new ApolloLink((operation, forward) => {
 
     // add the authorization to the headers
@@ -41,15 +51,41 @@ function _initClient(headers, initialState) {
   })
   
 
+  /**
+   * MIDDLEWARE (AUTH, SUBSCRIPTION...) SETUP
+   */
+
+  const httpLink = createHttpLink({  
+    uri : (process.env.BACKEND_HOST || 'http://localhost') + ':'+ (process.env.BACKEND_PORT || '3001') +'/graphql', 
+    credentials: 'include' // CROSS ORIGIN il faudra héberger le server sur le même domaine que le client.
+  })
+
+  const link = (process.browser ? from([
+    authMiddleware, split(
+
+      // split based on operation type
+      ({ query }) => {
+        const { kind, operation } = getMainDefinition(query);
+        return kind === 'OperationDefinition' && operation === 'subscription';
+      },
+      new WebSocketLink(new SubscriptionClient('ws://localhost:3001/subscription', {
+        reconnect: true,
+
+        // lazy: true
+      },  WebSocket)),
+      httpLink,
+    )]): from([  authMiddleware,
+    httpLink,
+  ]))
+
+
+  /**
+   * ApolloClient INIT
+   */
+
   return new ApolloClient({
     initialState,
-    link: from([
-      authMiddleware,
-      createHttpLink({  
-        uri : (process.env.BACKEND_HOST || 'http://localhost') + ':'+ (process.env.BACKEND_PORT || '3001') +'/graphql', 
-        credentials: 'include' // CROSS ORIGIN il faudra héberger le server sur le même domaine que le client.
-      }),
-    ])
+    link: link
    
     ,
     cache: new InMemoryCache(), 

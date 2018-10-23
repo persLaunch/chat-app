@@ -15,9 +15,11 @@
     "apollo-client": "^2.4.2",
     "apollo-link": "^1.2.3",
     "apollo-link-http": "^1.5.5",
+    "apollo-link-ws": "^1.0.9",
     "cookie": "^0.3.1",
     "graphql": "^0.13.0",
     "graphql-tag": "^2.10.0",
+    "isomorphic-ws": "^4.0.1",
     "js-cookie": "^2.2.0",
     "next": "^7.0.2",
     "nprogress": "^0.2.0",
@@ -30,7 +32,9 @@
     "react-portal": "^4.1.5",
     "react-swipeable-views": "^0.13.0",
     "react-swipeable-views-utils": "^0.13.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "subscriptions-transport-ws": "^0.9.15",
+    "ws": "^6.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

@@ -23,7 +23,8 @@ class Chat extends Component {
 
   render() {
     
-    if (this.props.loading) {
+    console.log(this.props)
+    if (this.props.loading || !this.props.chatrooms) {
       return <Loader />
     }
 

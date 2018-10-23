@@ -42,7 +42,7 @@ funcSetup.setupPassport(app);
 app.server = http.createServer(app);
 
 // Subscription Server Init 
-funcSetup.subscriptionServerInit(app.server, schema, './graphql/subscriptions');
+funcSetup.subscriptionServerInit(app.server, schema, '/subscription');
 
 // GRAPHQL
 app.use('/graphql', m_passport.middlewarePassportJWT, expressGraphQL({

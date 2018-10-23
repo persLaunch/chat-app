@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 
 import Card from '../../components/Card/Card'
+import onNewMessageAdded from '../../subscriptions.js/onNewMessageAdded';
 
 class Chatroom extends Component {
 
@@ -67,7 +68,6 @@ class Chatroom extends Component {
       return <Loader />
     }
 
-    console.log(this.props)
 
     return (
       <div className="container">
@@ -151,9 +151,36 @@ class Chatroom extends Component {
 }
 
 export default compose(graphql(getChatroom, {
-  props: ({ data: { loading, chatroom } }) => ({
-    loading,
-    chatroom
+  props: (({ loading, error, data }) => {
+
+    const subscribeToMore = data && data.subscribeToMore;
+    subscribeToMore({
+      document: onNewMessageAdded,
+          variables: { chatroomId: data.variables.id }, // id = chatroomId on va utiliser un props.id
+          onError: (error) => { return console.error('APOLLO-CHAT', error); },
+          updateQuery: ( previousResult, {subscriptionData} ) => {
+
+            if (!subscriptionData.data) {
+              return previousResult;
+            }
+
+            const newMessageAdded = get(subscriptionData, 'data.newMessageAdded');
+
+            const newResult = update(previousResult, { // On merge previousResult et le nouveau objet
+              chatroom: {
+                messages: {
+                  $push: [newMessageAdded],
+                },
+              },
+            });
+            return newResult;
+          },
+    });
+
+    return {
+      loading: data.loading,
+      chatroom: data.chatroom,
+    }
   }),
   options: (props) => {
     
