@@ -1,9 +1,9 @@
 import { compose } from 'redux'
 import withApolloLayout from './withApolloLayout'
-import withNavlessLayout from './withNavlessLayout'
+import withDefaultLayout from './withDefaultLayout'
 
 
 export const pageWithStandardLayout = compose(
   withApolloLayout,
-  withNavlessLayout
+  withDefaultLayout
 )

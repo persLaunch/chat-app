@@ -74,11 +74,7 @@ class LoginForm extends Component {
           </div>
           <div className="input-group fluid">
             <button type="submit" className="primary">Login</button>
-            <button type="button">
-              <Link href="/forgotpassword" prefetch>
-                <a>Forgot password?</a>
-              </Link>
-            </button>
+           
           </div>
           <div className="register-link">
             <Link prefetch href="/register">
