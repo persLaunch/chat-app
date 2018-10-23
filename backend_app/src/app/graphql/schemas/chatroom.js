@@ -14,9 +14,9 @@ const chatroomResolvers = {
 
             try {
                 
-                const plate = await Chatroom.findById(id);
+                const chatroom = await Chatroom.findById(id);
                 
-                return plate;
+                return chatroom;
 
             } catch (err) {
 

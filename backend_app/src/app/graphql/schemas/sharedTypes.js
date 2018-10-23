@@ -45,15 +45,27 @@ const sharedTypesResolvers = {
 
     Chatroom: {
 
-        messages(dataObj) {
-      
-            return Message.findAll({ 
-                where: { chatroomId: dataObj.id },
-                limit: 10,
-            });
-        }
+        messages: async (dataObj) => {
 
-    }
+            let messages = [];
+            
+            try {
+
+                messages = await Message.findAll({ 
+                    where: { chatroomId: dataObj.id },
+                    limit: 10,
+                });
+                
+            } catch (err) {
+
+                console.log(err);
+            }
+
+            return messages;
+          
+        },
+
+    },
 };
 
 module.exports = {

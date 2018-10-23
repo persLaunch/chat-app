@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         models.Message.belongsTo(models.User); // Adds foreignKey userId to Message
 
         // # v1 used to list all message from a chatroom
-        models.Message.belongsTo(models.Chatroom); // Adds foreignKey chatroomId to Message
+        models.Message.belongsTo(models.Chatroom, { foreignKey: { name: 'chatroomId', allowNull: false }, targetKey: 'id' }); // Adds foreignKey chatroomId to Message
   
     };
   
