@@ -26,7 +26,7 @@ class Chatroom extends Component {
         className="container"
       >
 
-
+        
 
         <style jsx>{`
          
