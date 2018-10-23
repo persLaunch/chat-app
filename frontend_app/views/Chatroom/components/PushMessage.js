@@ -19,7 +19,7 @@ class PushMessage extends Component {
     const { text } = this.state
     const { chatroomId } = this.props
 
-    if (!message || message === '') { 
+    if (!text || text === '') { 
       
       alert("Veuillez entrer un message") 
       return;
