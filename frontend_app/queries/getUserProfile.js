@@ -9,7 +9,7 @@ export default gql`
       lastName
       username
       email
-      dateSignedUp
+      signedUpAt
     }
   }
 `

@@ -44,7 +44,7 @@ db.Sequelize = Sequelize;
 
 
 // Initialization for prototyping...
-sequelize.sync({ force: app_config.SEQUELIZE_SYNC_FORCE }).then(() => { db.Chatroom.create({ title: 'Default Chatroom' }); });
+// sequelize.sync({ force: app_config.SEQUELIZE_SYNC_FORCE }).then(() => { db.Chatroom.create({ title: 'Default Chatroom' }); });
 
 
 module.exports = db;
