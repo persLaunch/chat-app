@@ -1,6 +1,6 @@
 {
   "name": "backend_app",
-  "version": "2.0.0npm ",
+  "version": "2.0.0",
   "description": "[Test Technique] Backend app efounder v1",
   "main": "src/index.js",
   "scripts": {
@@ -41,6 +41,7 @@
     "graphql-postgres-subscriptions": "^1.0.4",
     "graphql-subscriptions": "^1.0.0",
     "graphql-tools": "^4.0.2",
+    "jest": "^23.6.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
