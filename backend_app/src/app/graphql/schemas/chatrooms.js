@@ -1,4 +1,6 @@
 
+const s_auth = require('../services/s_auth');
+
 const { Chatroom } = require('../../models');
 
 const chatroomsTypeDef = `
@@ -10,20 +12,26 @@ const chatroomsTypeDef = `
 const chatroomsResolvers = {
 
     Query: {
-        chatrooms: async () => {
+        chatrooms: async (_, args, req) => {
 
-            try {
-                
-                const chatroomArray = await Chatroom.findAll();
+            let chatrooms = [];
+
+            if (s_auth.isAuth(req)) { 
+
+                try {
                     
-                return chatroomArray;
+                    chatrooms = await Chatroom.findAll();
+                        
+                    return chatrooms;
 
-            } catch (err) {
+                } catch (err) {
 
-                console.log(err);
-                return err;
+                    console.log(err);
+                    return err;
+                }
             }
 
+            return chatrooms;
         },
     },
 };

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import getChatroom from '../../queries/getChatroom'
-import AddMessage from '../../mutations/addMessage'
-
 import Loader from '../../components/Loader/Loader'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 
+import PushMessage from './components/PushMessage'
+import MessagesContainer from './components/MessagesContainer'
 import Card from '../../components/Card/Card'
-import onNewMessageAdded from '../../subscriptions.js/onNewMessageAdded';
+
+import getChatroom from '../../queries/getChatroom'
+import subNewMessage from '../../subscriptions.js/subNewMessage';
 
 class Chatroom extends Component {
 
@@ -17,48 +18,17 @@ class Chatroom extends Component {
     loading: PropTypes.bool,
     chatroom: PropTypes.object,
     chatroomId: PropTypes.string,
-    addMessage: PropTypes.func,
+    getChatroom: PropTypes.object,
   }
 
-  scrollToBottom = () => {
-    if(this.messagesEnd) {
+  UNSAFE_componentWillReceiveProps({ data: { newMessage } }) {
 
-      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-  
-  componentDidMount() {
-    this.scrollToBottom();
-  }
-  
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
+    if(this.props.getChatroom) {
 
-  sendMessage = async (e) => {
-
-    e.preventDefault()
-
-    const message = document.getElementById('message_input').value
-  
-    if (!message || message === '') { 
-      
-      alert("Veuillez entrer un message") 
-      return;
+      // # TODO to be improve -> merge directly in gql store cache with newMessage in param
+      this.props.getChatroom.refetch();
     }
 
-    try{
-
-      await this.props.addMessage(message, this.props.chatroomId);
-      document.getElementById('message_input').value = ''
-      
-    } catch (err) {
-
-      console.log(err)
-      alert("Une erreur s'est produite lors de l'envoie de votre message")
-    }
-
-    
   }
 
   render() {
@@ -68,14 +38,13 @@ class Chatroom extends Component {
       return <Loader />
     }
 
-
     return (
+   
       <div className="container">
       
         <div className="row">
           <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
             <Card style={{ textAlign: 'center' }}>
-        
               <div className="content">
                 {this.props.chatroom.title}
               </div>
@@ -83,128 +52,42 @@ class Chatroom extends Component {
           </div>
         </div>
 
-        <div className="messages-box" >
-          {this.props.chatroom.messages.slice(0).reverse().map((message) => {
-
-            return (
-              <div key={message.id} className="row">
-                <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-                  
-                  <Card  style={{ textAlign: 'center' }}>
-                    {`${message.ownerName}:`}
-                    <div className="content">
-            
-                      <div >{message.text}</div>
-                      <div ></div>
-             
-                    </div>
-                  </Card>
-
-                </div>
-              </div>
-            )
-          })}
-          <div style={{ float:"left", clear: "both" }}
-            ref={(el) => { this.messagesEnd = el; }}>
-          </div>
-        </div>
-    
-        <div className="message-input-box">
-          <form onSubmit={this.sendMessage}>
-
-            <div className="input-group fluid">
-              <textarea type="text" id="message_input" placeholder="Enter your message" />
-            </div>
-            <button className="button-action"> Send </button>
-          </form>
-        </div>
+        <MessagesContainer chatroom={this.props.chatroom} />
+        <PushMessage chatroomId={this.props.chatroomId}/>
+      
         <style jsx>{`
         .content {
           font-size: 20px;
           font-weight: bolder;
         }
 
-        .button-action {
-          width: 100%;
-          margin-top: 10px;
-          margin-right: 0px;
-          margin-left: 0px;
-          margin-bottom: 10px;
-        }
-        
-        .message-input-box {
-          background: #FFFFFF;
-          margin: 10px;
-        }
-        
-        .messages-box {
-          height: 300px;
-          overflow: scroll;
-
-        }
-   
-
       `}</style>
+
       </div>
+      
     )
   }
 }
 
-export default compose(graphql(getChatroom, {
-  props: (({ loading, error, data }) => {
 
-    const subscribeToMore = data && data.subscribeToMore;
-    subscribeToMore({
-      document: onNewMessageAdded,
-          variables: { chatroomId: data.variables.id }, // id = chatroomId on va utiliser un props.id
-          onError: (error) => { return console.error('APOLLO-CHAT', error); },
-          updateQuery: ( previousResult, {subscriptionData} ) => {
 
-            if (!subscriptionData.data) {
-              return previousResult;
-            }
+export default compose(
+  graphql(subNewMessage),
 
-            const newMessageAdded = get(subscriptionData, 'data.newMessageAdded');
+  graphql(getChatroom, {
 
-            const newResult = update(previousResult, { // On merge previousResult et le nouveau objet
-              chatroom: {
-                messages: {
-                  $push: [newMessageAdded],
-                },
-              },
-            });
-            return newResult;
-          },
-    });
-
-    return {
-      loading: data.loading,
-      chatroom: data.chatroom,
-    }
-  }),
-  options: (props) => {
+    props: (props) => {
+      return {
+        loading: props.data.loading,
+        chatroom: props.data.chatroom,
+        getChatroom: props.data,
+      }},
+    options: (props) => {
     
-    return {
-      variables: { id: props.chatroomId }
-    }
-  },
-}),
-graphql(AddMessage, {
-  props: ({ mutate }) => ({
-    addMessage: (text, chatroomId) => {
-      return mutate({
-        variables: { text, chatroomId },
-    
-      })
-    }
-  }),
-  options: props => ({
-    refetchQueries: [
-      {
-        query: getChatroom,
+      return {
         variables: { id: props.chatroomId }
       }
-    ]
+    },
   })
-})
 )(Chatroom)
+

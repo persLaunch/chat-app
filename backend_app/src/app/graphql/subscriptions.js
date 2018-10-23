@@ -1,10 +1,13 @@
-import { PostgresPubSub } from "graphql-postgres-subscriptions";
- 
-const pubsub = new PostgresPubSub(/* {
-    user: process.env.DBUSER,
-    host: process.env.DBHOST,
-    database: process.env.DB,
-    password: process.env.DBPASSWORD,
-    port: process.env.DBPORT
-  } */);
+import { PubSub } from 'graphql-subscriptions';
+/*
+  #TODO To be tested
+const pubsub = new PostgresPubSub({
+   user: 'postgres',
+    host: 'localhost',
+    database: 'app_db_dev',
+    password: 'postgres',
+    port: '5432',
+});
+*/
+const pubsub = new PubSub();
 export default pubsub;

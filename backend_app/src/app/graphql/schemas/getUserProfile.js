@@ -18,14 +18,11 @@ const getUserProfileResolvers = {
                 try {
 
                     const { userId } = req.auth;
-
                     user = await s_user.getUserProfile(userId);
-        
                 } catch (err) {
                     
                     user = {};
                 }
-
             }
 
             return user;

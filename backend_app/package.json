@@ -39,6 +39,7 @@
     "express-session": "^1.15.6",
     "graphql": "^0.13.2",
     "graphql-postgres-subscriptions": "^1.0.4",
+    "graphql-subscriptions": "^1.0.0",
     "graphql-tools": "^4.0.2",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",

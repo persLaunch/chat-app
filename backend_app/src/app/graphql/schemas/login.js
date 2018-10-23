@@ -13,9 +13,7 @@ const loginResolvers = {
  
             try {
 
-                console.log('auth', req.auth);
                 const token = await s_auth.login({ email, password, req });
-
                 return token;
                 
             } catch (err) {

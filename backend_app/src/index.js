@@ -41,9 +41,6 @@ funcSetup.setupPassport(app);
 // Server Init
 app.server = http.createServer(app);
 
-// Subscription Server Init 
-funcSetup.subscriptionServerInit(app.server, schema, '/subscription');
-
 // GRAPHQL
 app.use('/graphql', m_passport.middlewarePassportJWT, expressGraphQL({
     schema,
@@ -58,6 +55,11 @@ app.use('/', express.static(wwwPath));
 app.server.listen(app_config.BACKEND_SERVER_PORT, app_config.BACKEND_SERVER_HOSTNAME, () => {
     console.log('App is running on address', app.server.address());
     console.log(`App is running on port ${app.server.address().port}`);
+
+
+    // Subscription Server Init 
+    funcSetup.subscriptionServerInit(app.server, schema, '/subscriptions');
+
 });
 
 export default app;

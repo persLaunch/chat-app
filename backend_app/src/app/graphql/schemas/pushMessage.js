@@ -5,15 +5,16 @@ const { Message } = require('../../models');
 const s_auth = require('../services/s_auth');
 const s_user = require('../services/s_user');
 
-const addMessageTypeDef = `
-  extend type Mutation {
-    addMessage(text: String, chatroomId: String): Message
-}
+
+const pushMessageTypeDef = `
+  extend type Mutation { 
+    pushMessage(text: String!, chatroomId: String!): Message 
+  }
 `;
 
-const addMessageResolvers = {
+const pushMessageResolvers = {
     Mutation: {
-        addMessage: async (_, { text, chatroomId }, req) => {
+        pushMessage: async (_, { text, chatroomId }, req) => {
            
             console.log('addMessage');
 
@@ -35,7 +36,7 @@ const addMessageResolvers = {
                     
                     const messageData = await Message.create(message);
                    
-                    pubsub.publish('newMessageAdded', { messageAdded: message.dataValues });
+                    pubsub.publish('newMessage', { newMessage: messageData.dataValues });
                     
                     return messageData.dataValues;
 
@@ -54,6 +55,6 @@ const addMessageResolvers = {
 };
 
 module.exports = {
-    addMessageTypeDef,
-    addMessageResolvers,
+    pushMessageTypeDef,
+    pushMessageResolvers,
 };

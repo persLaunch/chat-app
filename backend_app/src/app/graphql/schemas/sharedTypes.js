@@ -1,5 +1,3 @@
-
-
 const { User } = require('../../models');
 const { Message } = require('../../models');
 
@@ -30,7 +28,6 @@ const sharedTypesTypeDef = `
     ownerName: String
     createdAt: String
   }
-
 `;
 
 const sharedTypesResolvers = {
@@ -40,7 +37,6 @@ const sharedTypesResolvers = {
         owner(dataObj) {
 
             return User.findOne({ where: { id: dataObj.userId } });
-
         },
     },
 
@@ -59,24 +55,6 @@ const sharedTypesResolvers = {
                         ['createdAt', 'DESC'],
                     ],
                 });
-
-                /* messages = messages.map(async (messageDataOriginal) => {
-
-                    const messageData = { ...messageDataOriginal };
-
-                    try {
-
-                        const userData = await User.findOne({ where: { id: messageData.dataValues.userId } });
-                    
-                        messageData.dataValues.owner = userData.dataValues;
-                      } catch (err) { 
-
-                        console.log(err); 
-                    }
-                    
-                    console.log("messageData ",messageData.dataValues); 
-                    return messageData.dataValues;
-                }); */
 
             } catch (err) { 
 

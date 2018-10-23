@@ -32,6 +32,8 @@
     "react-portal": "^4.1.5",
     "react-swipeable-views": "^0.13.0",
     "react-swipeable-views-utils": "^0.13.0",
+    "react-toastify": "^4.4.0",
+    "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "subscriptions-transport-ws": "^0.9.15",
     "ws": "^6.1.0"

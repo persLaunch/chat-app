@@ -1,3 +1,5 @@
+
+
 const { makeExecutableSchema } = require('graphql-tools');
 const { merge } = require('lodash');
 
@@ -7,14 +9,16 @@ const sharedTypes = require('./schemas/sharedTypes');
 const getUserProfile = require('./schemas/getUserProfile');
 const chatrooms = require('./schemas/chatrooms');
 const chatroom = require('./schemas/chatroom');
-const addMessage = require('./schemas/addMessage');
-const newMessageAdded = require('./schemas/newMessageAdded');
+
+const newMessage = require('./schemas/newMessage');
+const pushMessage = require('./schemas/pushMessage');
 
 const rootSchema = `
 
   type Query {
     version: String!
   }
+
   type Mutation {
     version: String!
   }
@@ -31,7 +35,6 @@ const rootSchema = `
 `;
 
 const rootResolvers = {
-
     Query: {
         version: () => require('../../../package.json').version, /* eslint global-require:0 */
     },
@@ -43,20 +46,23 @@ const rootResolvers = {
     },
 };
 
+
 const schema = makeExecutableSchema({
     typeDefs: [
         rootSchema,
         sharedTypes.sharedTypesTypeDef,
-        
+     
+
         register.registerTypeDef,
         login.loginTypeDef,
         getUserProfile.getUserProfileTypeDef,
         
         chatrooms.chatroomsTypeDef,
         chatroom.chatroomTypeDef,
-        addMessage.addMessageTypeDef,
-        newMessageAdded.newMessageAddedTypeDef,
         
+        newMessage.newMessageTypeDef,
+        pushMessage.pushMessageTypeDef,
+
     ],
     resolvers: merge(
         rootResolvers,
@@ -68,9 +74,9 @@ const schema = makeExecutableSchema({
 
         chatrooms.chatroomsResolvers,
         chatroom.chatroomResolvers,
-        addMessage.addMessageResolvers,
-        newMessageAdded.newMessageAddedResolvers,
       
+        newMessage.newMessageResolvers,
+        pushMessage.pushMessageResolvers,
     ),
 });
 

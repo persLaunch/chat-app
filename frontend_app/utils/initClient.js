@@ -23,11 +23,7 @@ if (!process.browser) {
 
 function _initClient(headers, initialState) {
 
-  /**
-   * AUTH MIDDLEWARE
-   */
-
-  // Apollo -> Called only for GraphQL call
+  // Jamais appelé tant qu'on ne fait pas d'appel GraphQL
   const authMiddleware = new ApolloLink((operation, forward) => {
 
     // add the authorization to the headers
@@ -51,15 +47,26 @@ function _initClient(headers, initialState) {
   })
   
 
-  /**
-   * MIDDLEWARE (AUTH, SUBSCRIPTION...) SETUP
-   */
+
+  // Create an http link:
+  /*const httpLink = new HttpLink({
+  uri: 'http://localhost:3001/graphql'
+});
+*/
 
   const httpLink = createHttpLink({  
     uri : (process.env.BACKEND_HOST || 'http://localhost') + ':'+ (process.env.BACKEND_PORT || '3001') +'/graphql', 
     credentials: 'include' // CROSS ORIGIN il faudra héberger le server sur le même domaine que le client.
   })
 
+  // Create a WebSocket link:
+  /*const wsLink = new WebSocketLink(new SubscriptionClient('ws://localhost:3001/subscription', {
+  reconnect: true
+},  WebSocket))*/
+
+
+  // using the ability to split links, you can send data to each link
+  // depending on what kind of operation is being sent
   const link = (process.browser ? from([
     authMiddleware, split(
 
@@ -68,7 +75,7 @@ function _initClient(headers, initialState) {
         const { kind, operation } = getMainDefinition(query);
         return kind === 'OperationDefinition' && operation === 'subscription';
       },
-      new WebSocketLink(new SubscriptionClient('ws://localhost:3001/subscription', {
+      new WebSocketLink(new SubscriptionClient('ws://localhost:3001/subscriptions', {
         reconnect: true,
 
         // lazy: true
@@ -77,11 +84,6 @@ function _initClient(headers, initialState) {
     )]): from([  authMiddleware,
     httpLink,
   ]))
-
-
-  /**
-   * ApolloClient INIT
-   */
 
   return new ApolloClient({
     initialState,
