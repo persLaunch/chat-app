@@ -102,10 +102,10 @@ class RegisterForm extends Component {
             />
           </div>
           <div className="input-group fluid">
-            <button type="submit" className="primary">Register</button>
-            <button type="button">
+            <button type="submit" className="button-action">Register</button>
+            <button type="button" className="button-action">
               <Link href="/login" prefetch>
-                <a>Already A User?</a>
+                <a > Already A User?</a>
               </Link>
             </button>
           </div>
@@ -116,8 +116,10 @@ class RegisterForm extends Component {
           .input-label {
             width: 100px;
           }
+     
           a {
             text-decoration: none;
+            color: white;
           }
           .error-text {
             text-align: center;

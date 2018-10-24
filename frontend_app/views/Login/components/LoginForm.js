@@ -73,7 +73,7 @@ class LoginForm extends Component {
             />
           </div>
           <div className="input-group fluid">
-            <button type="submit" className="primary">Login</button>
+            <button type="submit" className="button-action">Login</button>
            
           </div>
           <div className="register-link">
