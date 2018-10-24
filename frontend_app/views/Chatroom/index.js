@@ -44,7 +44,7 @@ class Chatroom extends Component {
     if(props.subNewMessage.newMessage) { return { newMessage : props.subNewMessage.newMessage } }
     if(props.subNewUserActivity.newUserActivity) { 
       
-      console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
+      // console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
       return { newUserActivity : props.subNewUserActivity.newUserActivity } }
 
     return null;
