@@ -121,16 +121,6 @@ class Chatroom extends Component {
           </div>
         </div>
        
-        <MessagesContainer 
-          chatroom={this.props.chatroom}
-          newMessage={this.state.newMessage}
-        />
-        <div className="row">
-          <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-            <PushMessage chatroomId={this.props.chatroomId}/>
-          </div>
-        </div>
-    
 
         <button className="button-action" onClick={() => Router.push('/chat')} > Back </button>
        
@@ -161,6 +151,17 @@ class Chatroom extends Component {
           </div>
         </div>
 
+
+        <MessagesContainer 
+          chatroom={this.props.chatroom}
+          newMessage={this.state.newMessage}
+        />
+        <div className="row">
+          <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+            <PushMessage chatroomId={this.props.chatroomId}/>
+          </div>
+        </div>
+    
         <style jsx>{`
      
         .container {
