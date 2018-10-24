@@ -24,7 +24,7 @@ const getUserProfileResolvers = {
                 }
             }
 
-            throw new Error('Not authenticated');
+            return {};
         
         },
     },
