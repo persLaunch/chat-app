@@ -5,10 +5,13 @@ import { graphql, compose } from 'react-apollo'
 
 import PushMessage from './components/PushMessage'
 import MessagesContainer from './components/MessagesContainer'
+import UsersContainer from './components/UsersContainer'
 import Card from '../../components/Card/Card'
 
 import getChatroom from '../../queries/getChatroom'
-import subNewMessage from '../../subscriptions.js/subNewMessage';
+import subNewMessage from '../../subscriptions/subNewMessage';
+import subUpdateSomeoneActivity from '../../subscriptions/subUpdateSomeoneActivity';
+import pushUserActivity from '../../mutations/pushUserActivity';
 
 class Chatroom extends Component {
 
@@ -19,32 +22,57 @@ class Chatroom extends Component {
     chatroom: PropTypes.object,
     chatroomId: PropTypes.string,
     getChatroom: PropTypes.object,
+    pushUserActivityMutation: PropTypes.func,
   }
 
   state = {
 
     newMessage: null,
-  }
+    someoneActivity: null,
 
+  }
+ 
 
   static getDerivedStateFromProps(props) {
 
-    console.log("props", props)
+    if(props.data.newMessage) { return { newMessage : props.data.newMessage } }
+    if(props.data.someoneActivity) { return { someoneActivity : props.data.someoneActivity } }
 
-    if(props.data.newMessage) {
-
-      return { newMessage : props.data.newMessage }
-    }
- 
     return null;
+  }
+
+  
+  componentDidMount() {
+    
+    _pushUserActivity(true)
+  }
+
+  componentWillUnmount() {
+    
+    _pushUserActivity(false)
+  }
+
+  _pushUserActivity = async (statusParam) => {
+
+    const { chatroomId } = this.props
+
+    try{
+      await this.props.pushUserActivityMutation({
+        variables: {
+          chatroomId,
+          status: statusParam,
+        }
+      })
+
+    }catch(err) {
+
+      alert("Une erreur s'est produite, lors de l'envoi de votre présence aux autres utilisateurs...")
+    }
   }
 
   render() {
     
-    if (this.props.loading) {
-
-      return <Loader />
-    }
+    if (this.props.loading) { return <Loader /> }
 
     return (
    
@@ -59,7 +87,10 @@ class Chatroom extends Component {
             </Card>
           </div>
         </div>
-
+        <UsersContainer 
+          chatroom={this.props.chatroom}
+          someoneActivity={this.state.someoneActivity}
+        />
         <MessagesContainer 
           chatroom={this.props.chatroom}
           newMessage={this.state.newMessage}
@@ -94,6 +125,18 @@ export default compose(
     }
   },
   ),
+  graphql(subUpdateSomeoneActivity, {
+
+    options: (props) => {
+      return {
+        variables: { 
+          chatroomId: props.chatroomId 
+        }
+      }
+    }
+  },
+  ),
+  graphql(pushUserActivity, { name: 'pushUserActivityMutation' }),
   graphql(getChatroom, {
 
     props: (props) => {
