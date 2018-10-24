@@ -23,11 +23,20 @@ describe('[S_AUTH] ', () => {
         describe('Case 1: Valid email && password', () => {
 
             const email = 'personal.launch2@gmail.com';
-            const password = 'pass';
+            const password = '$2a$10$RyVZVJAkXNY4TmxAuHpvGuAIq3MAjozq0GF/cRI3XT9tc2Rf.9Tqe';
+        
+            const cred = { 
+                id: 10,
+                userId: 10,
+                email,
+                password,
+                updatedAt: new Date(),
+                createdAt: new Date(), 
+            };
 
             it('should call loginTokenFunction once', () => {
 
-                s_auth.generateTokenAuth(loginTokenFunction, email, password);
+                s_auth.generateTokenAuth(loginTokenFunction, cred);
                 
             });
 
@@ -37,13 +46,22 @@ describe('[S_AUTH] ', () => {
         describe('Case 2: At least one null param', () => {
 
             const email = null;
-            const password = 'pass';
+            const password = '$2a$10$RyVZVJAkXNY4TmxAuHpvGuAIq3MAjozq0GF/cRI3XT9tc2Rf.9Tqe';
+
+            const cred = { 
+                id: 10,
+                userId: 10,
+                email,
+                password,
+                updatedAt: new Date(),
+                createdAt: new Date(), 
+            };
 
             it('should call throw an error', () => {
 
-                expect(s_auth.generateTokenAuth(loginTokenFunction, email, password))
+                expect(s_auth.generateTokenAuth(loginTokenFunction, cred))
                     .rejects
-                    .toThrow('data and hash must be strings');
+                    .toThrow('Illegal arguments: object, number');
             });
         });
 
@@ -51,11 +69,20 @@ describe('[S_AUTH] ', () => {
         describe('Case 3: email non valid', () => {
 
             const email = 'lmazamlfjazazjazjazlfjazlfjazfj';
-            const password = 'pass';
+            const password = '$2a$10$RyVZVJAkXNY4TmxAuHpvGuAIq3MAjozq0GF/cRI3XT9tc2Rf.9Tqe';
+
+            const cred = { 
+                id: 10,
+                userId: 10,
+                email,
+                password,
+                updatedAt: new Date(),
+                createdAt: new Date(), 
+            };
 
             it('should call throw an error', () => {
 
-                expect(s_auth.generateTokenAuth(loginTokenFunction, email, password))
+                expect(s_auth.generateTokenAuth(loginTokenFunction, cred))
                     .rejects
                     .toThrow('Invalid Credentials');
 

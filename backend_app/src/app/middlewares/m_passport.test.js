@@ -15,7 +15,7 @@ describe('[M_PASSPORT] ', () => {
             it('should throw an error', async () => {
                 expect(m_passport.comparePassword(password, hashpassword))
                     .rejects
-                    .toThrow('data and hash arguments required');
+                    .toEqual(new Error('Illegal arguments: object, number'));
             
             });
         });
@@ -57,7 +57,7 @@ describe('[M_PASSPORT] ', () => {
     
                 expect(m_passport.comparePassword(password, hashpassword))
                     .resolves
-                    .toThrow('Invalid Credentials');
+                    .toEqual(new Error('Invalid Credentials'));
           
             });
         });
@@ -70,7 +70,7 @@ describe('[M_PASSPORT] ', () => {
             it('should throw an error', async () => {
                 expect(m_passport.comparePassword(password, hashpassword))
                     .rejects
-                    .toThrow('data and hash must be strings');
+                    .toEqual(new Error('Illegal arguments: string, number'));
             
             });
         });

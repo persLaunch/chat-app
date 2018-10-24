@@ -38,7 +38,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             try {
-
+                
                 loginTokenFunction(cred, { session: false }, (err2) => {
 
                     if (err2) { return reject(new Error('User not found')); }
