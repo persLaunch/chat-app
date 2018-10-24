@@ -11,7 +11,6 @@ const getUserProfileResolvers = {
     Query: {
         getUserProfile: async (_, args, req) => {
 
-            console.log("req", req.auth)
             if (s_auth.isAuth(req)) { 
 
                 try {

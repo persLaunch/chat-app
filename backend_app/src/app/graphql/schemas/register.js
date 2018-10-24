@@ -13,16 +13,12 @@ const registerResolvers = {
 
             try {
                 
-                console.log({ email, password, firstName, lastName, username });
                 const user = await s_user.createUser({ email, firstName, lastName, username });
                
-                console.log("a");
-                 const cred = await s_auth.register(user.id, user.email, password);
+                const cred = await s_auth.register(user.id, user.email, password);
                 
-                console.log("b");
                 const token = await s_auth.generateTokenAuth(req.login, cred);
 
-                console.log(token);
                 return token;
 
             } catch (err) {
