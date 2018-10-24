@@ -91,6 +91,7 @@ module.exports = {
 
     middlewarePassportJWT: (req, res, next) => {
 
+        // console.log(req.headers)
         passport.authenticate('jwt', { session: false }, async (err, userObjectData) => {
     
             if (userObjectData) {

@@ -11,10 +11,10 @@ const getUserProfileResolvers = {
     Query: {
         getUserProfile: async (_, args, req) => {
 
+            console.log("req", req.auth)
             if (s_auth.isAuth(req)) { 
 
                 try {
-
                     const { userId } = req.auth;
                     const user = await s_user.getUserProfile(userId);
                     return user;

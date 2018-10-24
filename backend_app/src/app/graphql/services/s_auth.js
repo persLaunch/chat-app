@@ -33,12 +33,7 @@ module.exports = {
 
     },
 
-    generateTokenAuth(loginTokenFunction, email, password) {
-
-        const cred = {
-            email, 
-            password,
-        };
+    generateTokenAuth(loginTokenFunction, cred) {
 
         return new Promise((resolve, reject) => {
 
