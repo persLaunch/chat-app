@@ -7,7 +7,6 @@ import fetch from 'isomorphic-fetch'
 import { loadAccessToken } from './cookieUtils'
 import cookie from 'cookie'
 
-import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
@@ -49,21 +48,11 @@ function _initClient(headers, initialState) {
 
 
   // Create an http link:
-  /*const httpLink = new HttpLink({
-  uri: 'http://localhost:3001/graphql'
-});
-*/
 
   const httpLink = createHttpLink({  
-    uri : (process.env.BACKEND_HOST || 'http://localhost') + ':'+ (process.env.BACKEND_PORT || '3001') +'/graphql', 
+    uri : 'http://' + (process.env.BACKEND_HOST || 'localhost') + ':'+ (process.env.BACKEND_PORT || '3001') +'/graphql', 
     credentials: 'include' // CROSS ORIGIN il faudra héberger le server sur le même domaine que le client.
   })
-
-  // Create a WebSocket link:
-  /*const wsLink = new WebSocketLink(new SubscriptionClient('ws://localhost:3001/subscription', {
-  reconnect: true
-},  WebSocket))*/
-
 
   // using the ability to split links, you can send data to each link
   // depending on what kind of operation is being sent
@@ -75,7 +64,7 @@ function _initClient(headers, initialState) {
         const { kind, operation } = getMainDefinition(query);
         return kind === 'OperationDefinition' && operation === 'subscription';
       },
-      new WebSocketLink(new SubscriptionClient('ws://localhost:3001/subscriptions', {
+      new WebSocketLink(new SubscriptionClient('ws://'+(process.env.BACKEND_HOST || 'localhost')+':'+ (process.env.BACKEND_PORT || '3001') +'/subscriptions', {
         reconnect: true,
 
         // lazy: true
