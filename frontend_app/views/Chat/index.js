@@ -14,7 +14,8 @@ class Chat extends Component {
 
     loading: PropTypes.bool,
     chatrooms: PropTypes.array,
-    user: PropTypes.object
+    user: PropTypes.object,
+    getChatroomListRefetch: PropTypes.func,
   }
 
   enterInChatroom = (chatroomId) => {
@@ -22,6 +23,14 @@ class Chat extends Component {
     Router.push('/chatroom?chatroomId=' + chatroomId);
   }
 
+  refetch() {
+
+    if( this.props.getChatroomListRefetch) {
+
+      this.props.getChatroomListRefetch()
+    }
+  }
+  componentDidMount() { this.refetch(); }
 
   render() {
     
@@ -79,8 +88,12 @@ class Chat extends Component {
 }
 
 export default graphql(getChatroomList, {
-  props: ({ data: { loading, chatrooms } }) => ({
+  props: ({ data: { loading, chatrooms, refetch } }) => {
+   
+    return {
     loading,
-    chatrooms
-  }),
+    chatrooms,
+    getChatroomListRefetch: refetch,
+  }
+  },
 })(Chat)

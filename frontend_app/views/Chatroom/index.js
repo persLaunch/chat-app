@@ -26,6 +26,9 @@ class Chatroom extends Component {
     chatroomId: PropTypes.string,
     getChatroom: PropTypes.object,
     pushUserActivityMutation: PropTypes.func,
+    getChatroomRefetch: PropTypes.func,
+    subNewMessageRefetch: PropTypes.func,
+    subNewUserActivityRefetch: PropTypes.func,
   }
 
   state = {
@@ -41,7 +44,7 @@ class Chatroom extends Component {
     if(props.subNewMessage.newMessage) { return { newMessage : props.subNewMessage.newMessage } }
     if(props.subNewUserActivity.newUserActivity) { 
       
-      // console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
+      console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
       return { newUserActivity : props.subNewUserActivity.newUserActivity } }
 
     return null;
@@ -68,8 +71,22 @@ class Chatroom extends Component {
     }
   }
   
+  refetch() {
+
+    if( this.props.getChatroomRefetch && this.props.chatroomId) {
+      this.props.getChatroomRefetch(this.props.chatroomId)
+    }
+    if( this.props.subNewUserActivityRefetch) {
+      this.props.subNewUserActivityRefetch()
+    }
+    if( this.props.subNewMessageRefetch) {
+      this.props.subNewMessageRefetch()
+    }
+  }
 
   componentDidMount() {
+
+    this.refetch();
 
     this.interval = setInterval(() => {
       
@@ -167,11 +184,12 @@ export default compose(
     props: (props) => {
       return {
         subNewMessage: props.data,
+        subNewMessageRefetch: props.data.refetch
       }},
     options: (props) => {
       return {
         variables: { 
-          chatroomId: props.chatroomId 
+          chatroomId: props.chatroomId
         }
       }
     }
@@ -182,11 +200,12 @@ export default compose(
     props: (props) => {
       return {
         subNewUserActivity: props.data,
+        subNewUserActivityRefetch: props.data.refetch
       }},
     options: (props) => {
       return {
         variables: { 
-          chatroomId: props.chatroomId 
+          chatroomId: props.chatroomId
         }
       }
     }
@@ -200,6 +219,7 @@ export default compose(
         loading: props.data.loading,
         chatroom: props.data.chatroom,
         getChatroom: props.data,
+        getChatroomRefetch: props.data.refetch
       }},
     options: (props) => {
     
