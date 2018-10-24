@@ -62,7 +62,8 @@ class Chatroom extends Component {
 
     }catch(err) {
 
-      alert("Une erreur s'est produite, lors de l'envoi de votre présence aux autres utilisateurs...")
+      // Boring alert
+      // alert("Une erreur s'est produite, lors de l'envoi de votre présence aux autres utilisateurs...")
     }
   }
   
