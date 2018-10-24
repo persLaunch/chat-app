@@ -1,7 +1,7 @@
 # chat-webapp
 Chat web application with the following stack: Node.js, Sequelize, PostgreSQL, GraphQL, React, Apollo and Next.js, Jest.
 
-Disclaimer: I implmented some backend unit testing but I privileged documentation at the end so I did not finish implementing any React testing... :(
+Disclaimer: I implemented some backend unit testing but I privileged documentation at the end so I did not finish implementing any React testing... :(
 
 # Version 1: Single chat room
 There is only 1 chat room where users can discuss
