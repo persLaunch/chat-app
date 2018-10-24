@@ -42,9 +42,14 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-
 // Initialization for prototyping...
-sequelize.sync({ force: app_config.SEQUELIZE_SYNC_FORCE }).then(() => { db.Chatroom.create({ title: 'Default Chatroom' }); });
+sequelize.sync({ force: app_config.SEQUELIZE_SYNC_FORCE }).then(() => { 
+
+    if (app_config.SEQUELIZE_SYNC_FORCE) {
+
+        db.Chatroom.create({ title: 'Default Chatroom' });
+    }
+});
 // sequelize.sync();
 
 module.exports = db;

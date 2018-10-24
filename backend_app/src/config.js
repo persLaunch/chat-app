@@ -15,7 +15,7 @@ module.exports = {
     BACKEND_SERVER_HOSTNAME: parseInt(process.env.APPNAME_BACKEND_SERVER_HOSTNAME, 10),
 
     // DATABASE
-    SEQUELIZE_SYNC_FORCE: process.env.APPNAME_SEQUELIZE_SYNC_FORCE,
+    SEQUELIZE_SYNC_FORCE: (process.env.APPNAME_SEQUELIZE_SYNC_FORCE === 'true'),
 
     // Redis session
     REDIS_FOR_SESSION_ACTIVATED: (process.env.APPNAME_REDIS_FOR_SESSION_ACTIVATED === 'true'),
