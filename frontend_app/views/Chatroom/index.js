@@ -41,7 +41,7 @@ class Chatroom extends Component {
     if(props.subNewMessage.newMessage) { return { newMessage : props.subNewMessage.newMessage } }
     if(props.subNewUserActivity.newUserActivity) { 
       
-      console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
+      // console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
       return { newUserActivity : props.subNewUserActivity.newUserActivity } }
 
     return null;
@@ -73,7 +73,7 @@ class Chatroom extends Component {
 
     this.interval = setInterval(() => {
       
-      console.log("SEND HEARTBEAT")
+      // console.log("SEND HEARTBEAT")
       this._pushUserActivity(true)
     },TIME_INTERVAL_PUSH_REFRESH_USER_ACTIVITY)
 
