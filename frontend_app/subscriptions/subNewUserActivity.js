@@ -5,9 +5,9 @@ export default gql`
 subscription NewUserActivity($chatroomId: ID) {
   newUserActivity(chatroomId: $chatroomId) {
       id
-      text
+      status
+      user
       createdAt
-      ownerName
   }
 }
 `

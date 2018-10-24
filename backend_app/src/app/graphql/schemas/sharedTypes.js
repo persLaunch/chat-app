@@ -28,6 +28,13 @@ const sharedTypesTypeDef = `
     ownerName: String
     createdAt: String
   }
+
+  type UserActivity {
+    status: String
+    user: [User]
+    chatroomId: String
+    createdAt: Int,
+  }
 `;
 
 const sharedTypesResolvers = {

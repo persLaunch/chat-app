@@ -14,6 +14,9 @@ const addChatroom = require('./schemas/addChatroom');
 const newMessage = require('./schemas/newMessage');
 const pushMessage = require('./schemas/pushMessage');
 
+const newUserActivity = require('./schemas/newUserActivity');
+const pushUserActivity = require('./schemas/pushUserActivity');
+
 const rootSchema = `
 
   type Query {
@@ -64,6 +67,8 @@ const schema = makeExecutableSchema({
         
         newMessage.newMessageTypeDef,
         pushMessage.pushMessageTypeDef,
+        newUserActivity.newUserActivityTypeDef,
+        newUserActivity.newUserActivityTypeDef,
 
 
     ],
@@ -81,6 +86,8 @@ const schema = makeExecutableSchema({
       
         newMessage.newMessageResolvers,
         pushMessage.pushMessageResolvers,
+        newUserActivity.newUserActivityResolvers,
+        newUserActivity.newUserActivityResolvers,
     ),
 });
 

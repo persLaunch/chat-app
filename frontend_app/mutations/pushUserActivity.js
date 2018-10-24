@@ -1,9 +1,7 @@
 import gql from 'graphql-tag';
 
 export default gql`
-mutation PushUserActivityMutation($chatroomId: String!, $status: String!){
-    pushUserActivity(chatroomId: $chatroomId, status: $status) {
-      text
-    }
+mutation PushUserActivityMutation($status: String!, $chatroomId: String!){
+    pushUserActivity(status: $status, chatroomId: $chatroomId)
   }
 `

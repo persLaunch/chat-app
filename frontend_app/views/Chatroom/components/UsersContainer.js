@@ -15,6 +15,7 @@ class MessagesContainer extends Component {
      */
     activeUsers: {},
     messages: [],
+    time: Date.now(),
   }
 
   static propTypes = {
@@ -36,10 +37,11 @@ class MessagesContainer extends Component {
 
     const activeUsers = { ...activeUsersParam}
     const someone = newUserActivity.user;
+    const createdAt = new Date(newUserActivity.createdAt);
     const someoneId = someone.id;
 
     if(newUserActivity.status && !Object.keys(activeUsers).include(someoneId)) {
-      activeUsers[someoneId] = { user: someone, lastUpdate: new Date() }
+      activeUsers[someoneId] = { user: someone, lastUpdate: createdAt }
     }
 
     if(!newUserActivity.status) {
@@ -59,11 +61,10 @@ class MessagesContainer extends Component {
       this.setState({ messages: this.props.chatroom.messages.reverse() })
     
     }
-  }
 
-  componentDidMount() {
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
   }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
@@ -103,15 +104,15 @@ class MessagesContainer extends Component {
           const { user, lastUpdate } = activeUser
 
           return 
-          ( lastUpdate < new Date() -  ?
-            <div key={message.id} className="row">
+          ( lastUpdate.getTime() < (this.state.time - 1000) ?
+            <div key={user.id} className="row">
               <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
                     
-                <Card  style={{ textAlign: 'center' }}>
-                  {`${message.ownerName}: ${date}`}
+                <Card style={{ textAlign: 'center' }}>
+                  {`${user.username}: ${date}`}
                   <div className="content">
             
-                    <div >{message.text}</div>
+                    <div >En ligne: {user.status}</div>
                     <div ></div>
             
                   </div>
