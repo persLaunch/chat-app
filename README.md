@@ -3,7 +3,7 @@ Chat web application with the following stack: Node.js, Sequelize, PostgreSQL, G
 
 Disclaimer: I implemented some backend unit testing but I privileged documentation at the end so I did not finish implementing any React testing... :(
 
-![alt text](https://drive.google.com/open?id=12Uq7t3An_pZpou0rLDo2RwmBS5UtvKqQ)
+![alt text](https://github.com/persLaunch/img/home_screenshot.jpg)
 
 # Version 1: Single chat room
 There is only 1 chat room where users can discuss
