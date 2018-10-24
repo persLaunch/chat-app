@@ -13,7 +13,7 @@ const loginResolvers = {
  
             try {
 
-                const token = await s_auth.login({ email, password, req });
+                const token = await s_auth.login(email, password, req.login);
                 return token;
                 
             } catch (err) {

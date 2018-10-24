@@ -9,8 +9,7 @@ const { Auth } = require('../../models');
 
 module.exports = { 
 
- 
-    register({ userId, email, password, req }) {
+    register(userId, email, password) {
 
         return new Promise((resolve, reject) => {
 
@@ -25,25 +24,7 @@ module.exports = {
 
                     credInstance.save().then((credObject) => {
 
-                        try {
-                            
-                            req.login(credObject.dataValues, { session: false }, (err2) => {
-
-                                if (err2) { return reject(new Error('User not found')); }
-                                
-                                // We generate a JWT with credObject and return it
-                                const token = jwt.sign(credObject.dataValues, appConfig.JWT_SECRET_TOKEN);
-
-                                return resolve(token);
-                            });
-
-                        } catch (err) {
-                    
-                            debug(err);
-                            return reject(err);
-                        }
-
-                        return null;
+                        return resolve(credObject.dataValues);
                     });
 
                     return null;
@@ -58,28 +39,45 @@ module.exports = {
             return null;
         });
     },
+
+    genereteTokenAuth(loginTokenFunction, cred) {
+
+        return new Promise((resolve, reject) => {
+
+            try {
+                
+                loginTokenFunction(cred, { session: false }, (err2) => {
+
+                    if (err2) { return reject(new Error('User not found')); }
+                
+                    // We generate a JWT with credObject and return it
+                    const token = jwt.sign(cred, appConfig.JWT_SECRET_TOKEN);
+
+                    return resolve(token);
+                });
+
+            } catch (err) {
     
-    login({ email, password, req }) {
+                debug(err);
+                return reject(err);
+            }
+
+            return null;
+        });
+    },
+    
+    login(email, password, loginTokenFunction) {
 
         return new Promise((resolve, reject) => {
 
             passport.authenticate('local', (err, cred) => {
 
-                if (!cred) {
+                if (!cred) { return reject(new Error('User not found')); }
+                if (err) { return reject(new Error('Invalid credentials.')); }
 
-                    return reject(new Error('User not found')); 
-                }
+                return loginTokenFunction(cred.dataValues, { session: false }, (err2) => {
 
-                if (err) {
-
-                    return reject(new Error('Invalid credentials.')); 
-                }
-
-                return req.login(cred.dataValues, { session: false }, (err2) => {
-
-                    if (err2) {
-                        return reject(new Error('User not found')); 
-                    }
+                    if (err2) { return reject(new Error('User not found')); }
 
                     // We generate a JWT with credObject and return it
                     const token = jwt.sign(cred.dataValues, appConfig.JWT_SECRET_TOKEN);

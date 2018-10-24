@@ -109,7 +109,6 @@ export default class Navigation extends Component {
           .nav-bar {
             background: #1522e0ec;
             display: flex;
-            height: 60px;
             position: fixed;
             width: 100%;
             align-items: center;
