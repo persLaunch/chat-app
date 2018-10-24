@@ -10,7 +10,7 @@ import Card from '../../components/Card/Card'
 
 import getChatroom from '../../queries/getChatroom'
 import subNewMessage from '../../subscriptions/subNewMessage';
-import subUpdateSomeoneActivity from '../../subscriptions/subUpdateSomeoneActivity';
+import subNewUserActivity from '../../subscriptions/subNewUserActivity';
 import pushUserActivity from '../../mutations/pushUserActivity';
 
 class Chatroom extends Component {
@@ -28,7 +28,7 @@ class Chatroom extends Component {
   state = {
 
     newMessage: null,
-    someoneActivity: null,
+    newUserActivity: null,
 
   }
  
@@ -36,7 +36,7 @@ class Chatroom extends Component {
   static getDerivedStateFromProps(props) {
 
     if(props.data.newMessage) { return { newMessage : props.data.newMessage } }
-    if(props.data.someoneActivity) { return { someoneActivity : props.data.someoneActivity } }
+    if(props.data.newUserActivity) { return { newUserActivity : props.data.newUserActivity } }
 
     return null;
   }
@@ -89,7 +89,7 @@ class Chatroom extends Component {
         </div>
         <UsersContainer 
           chatroom={this.props.chatroom}
-          someoneActivity={this.state.someoneActivity}
+          newUserActivity={this.state.newUserActivity}
         />
         <MessagesContainer 
           chatroom={this.props.chatroom}
@@ -125,7 +125,7 @@ export default compose(
     }
   },
   ),
-  graphql(subUpdateSomeoneActivity, {
+  graphql(subNewUserActivity, {
 
     options: (props) => {
       return {

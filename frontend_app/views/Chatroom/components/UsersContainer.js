@@ -20,7 +20,7 @@ class MessagesContainer extends Component {
   static propTypes = {
 
     chatroom: PropTypes.object,
-    someoneActivity: PropTypes.object,
+    newUserActivity: PropTypes.object,
   }
 
   scrollToBottom = () => {
@@ -32,16 +32,17 @@ class MessagesContainer extends Component {
   
 
 
-  updateActiveUsers = (activeUsersParam, someoneActivity) => {
+  updateActiveUsers = (activeUsersParam, newUserActivity) => {
 
     const activeUsers = { ...activeUsersParam}
-    const someoneId = someoneActivity.user.id;
+    const someone = newUserActivity.user;
+    const someoneId = someone.id;
 
-    if(someoneActivity.status && !Object.keys(activeUsers).include(someoneId)) {
-      activeUsers[someoneId] = { user: someoneActivity.user, lastUpdate: new Date() }
+    if(newUserActivity.status && !Object.keys(activeUsers).include(someoneId)) {
+      activeUsers[someoneId] = { user: someone, lastUpdate: new Date() }
     }
 
-    if(!someoneActivity.status) {
+    if(!newUserActivity.status) {
       delete activeUsers[someoneId]; 
     }
 
@@ -59,7 +60,7 @@ class MessagesContainer extends Component {
     
     }
   }
-  
+
   componentDidMount() {
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
   }
@@ -78,14 +79,14 @@ class MessagesContainer extends Component {
     }
 
     /**
-     * someoneActivity: {
+     * newUserActivity: {
      *        status,
      *        user
      *     }
      */
-    if(props.chatroom && props.data.someoneActivity) {
+    if(props.chatroom && props.data.newUserActivity) {
 
-      const activeUsers = updateActiveUsers(state.activeUsers, props.data.someoneActivity)
+      const activeUsers = updateActiveUsers(state.activeUsers, props.data.newUserActivity)
 
       return { activeUsers : activeUsers, newMessage : props.data.newMessage }
     }

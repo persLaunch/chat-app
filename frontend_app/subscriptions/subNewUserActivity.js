@@ -2,8 +2,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-subscription NewMessage($chatroomId: ID) {
-  newMessage(chatroomId: $chatroomId) {
+subscription NewUserActivity($chatroomId: ID) {
+  newUserActivity(chatroomId: $chatroomId) {
       id
       text
       createdAt
