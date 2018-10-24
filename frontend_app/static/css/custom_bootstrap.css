@@ -151,7 +151,7 @@ sup, sub {
   vertical-align: baseline;
 }
 a {
-  color: #0277bd;
+  color: #1522e0ec;
   text-decoration: underline;
   opacity: 1;
   transition: opacity 0.3s;
@@ -684,7 +684,7 @@ select:hover {
 input:not([type="button"]):not([type="submit"]):not([type="reset"]):focus,
 textarea:focus,
 select:focus {
-  border-color: #5962daec;
+  border-color: #1522e0ec;
   box-shadow: none;
 }
 input:not([type="button"]):not([type="submit"]):not([type="reset"]):invalid,
@@ -852,11 +852,11 @@ input[type="file"] {
 .input-group [type="checkbox"] + label:focus:before,
 .input-group [type="radio"] + label:hover:before,
 .input-group [type="radio"] + label:focus:before {
-  border-color: #5962daec;
+  border-color: #1522e0ec;
 }
 .input-group [type="checkbox"]:focus + label:before,
 .input-group [type="radio"]:focus + label:before {
-  border-color: #5962daec;
+  border-color: #1522e0ec;
 }
 .input-group [type="radio"] + label:before,
 .input-group [type="radio"] + label:after {
@@ -881,7 +881,7 @@ input[type="file"] {
 .input-group [type="checkbox"]:checked + label:after,
 .input-group [type="radio"]:checked + label:after {
   position: absolute;
-  background: #5962daec;
+  background: #1522e0ec;
   content: '';
   margin-left: -1.25rem;
   bottom: .625rem;
@@ -924,7 +924,7 @@ input[type="file"] {
   height: 1.25rem;
   bottom: .3125rem;
   margin-left: -3rem;
-  background: #0277bd;
+  background: #1522e0ec;
 }
 button.primary,
 [type="button"].primary,
@@ -932,7 +932,7 @@ button.primary,
 [type="reset"].primary,
 .button.primary,
 [role="button"].primary {
-  background: rgba(2, 119, 189, 0.9);
+  background: #1522e0ec;
   color: #fafafa;
 }
 button.primary:hover,
@@ -1137,7 +1137,7 @@ footer {
   font-size: .875rem;
 }
 footer a, footer a:visited {
-  color: #5962daec;
+  color: #1522e0ec;
 }
 header.sticky, footer.sticky {
   position: -webkit-sticky;
@@ -1666,7 +1666,7 @@ table.striped tr:nth-of-type(2n) > td {
 }
 .tabs > :checked + label {
   background: #eee;
-  border-bottom-color: #0277bd;
+  border-bottom-color: #1522e0ec;
 }
 .tabs > :checked + label:hover, .tabs > :checked + label:focus {
   background: rgba(238, 238, 238, 0.8);
@@ -1736,7 +1736,7 @@ table.striped tr:nth-of-type(2n) > td {
   }
 }
 mark {
-  background: #0277bd;
+  background: #1522e0ec;
   color: #fafafa;
   font-size: .9375em;
   line-height: 1em;
@@ -1883,10 +1883,10 @@ progress {
   border: 0;
   border-radius: .125rem;
   background: #e0e0e0;
-  color: #0277bd;
+  color: #1522e0ec;
 }
 progress::-webkit-progress-value {
-  background: #0277bd;
+  background: #1522e0ec;
   border-top-left-radius: .125rem;
   border-bottom-left-radius: .125rem;
 }
@@ -1894,7 +1894,7 @@ progress::-webkit-progress-bar {
   background: #e0e0e0;
 }
 progress::-moz-progress-bar {
-  background: #0277bd;
+  background: #1522e0ec;
   border-top-left-radius: .125rem;
   border-bottom-left-radius: .125rem;
 }
@@ -2152,3 +2152,31 @@ button:focus {
   outline: none;
 }
 
+form {
+
+  border-radius: 10px;
+}
+
+.title-section {
+  font-size: 20px;
+  font-weight: bolder;
+  background: #152220;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.title-note {
+  font-size: 14px;
+  font-style: italic;
+  background: #1522e0aa;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

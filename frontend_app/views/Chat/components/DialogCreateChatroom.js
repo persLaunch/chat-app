@@ -64,6 +64,7 @@ class DialogCreateChatroom extends Component {
             </form>
           </div>
           <style jsx="true">{`
+          
             .form-section {
               margin: 20px;
             }

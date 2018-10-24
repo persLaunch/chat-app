@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Loader from '../../components/Loader/Loader'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
+import Router from 'next/router'
 
 import PushMessage from './components/PushMessage'
 import MessagesContainer from './components/MessagesContainer'
@@ -94,41 +95,62 @@ class Chatroom extends Component {
     return (
    
       <div className="container">
-      
+
         <div className="row">
           <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-            <Card style={{ textAlign: 'center' }}>
-              <div className="content">
-                {this.props.chatroom.title}
-              </div>
-            </Card>
+            <div className="title-section">
+              {this.props.chatroom.title}
+            </div>
           </div>
         </div>
+       
         <MessagesContainer 
           chatroom={this.props.chatroom}
           newMessage={this.state.newMessage}
         />
-        <PushMessage chatroomId={this.props.chatroomId}/>
-      
-        <p>
-          Online users:
-        </p>
-        <p>
-          * Refresh when new users join or leave chat or send/receive heartbeats 
-        </p>
-        <p>
-          * HeartBeats every {TIME_INTERVAL_PUSH_REFRESH_USER_ACTIVITY} ms
-        </p>
-        <UsersContainer 
-          chatroom={this.props.chatroom}
-          newUserActivity={this.state.newUserActivity}
-        />
-        <style jsx>{`
-        .content {
-          font-size: 20px;
-          font-weight: bolder;
-        }
+        <div className="row">
+          <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+            <PushMessage chatroomId={this.props.chatroomId}/>
+          </div>
+        </div>
+    
 
+        <button className="button-action" onClick={() => Router.push('/chat')} > Back </button>
+       
+        <div className="row">
+          <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+            <div className="title-section">
+              Users online
+            </div>
+            
+            <div className="title-note">
+              <p>
+          * Refresh when new users join or leave chat or send/receive heartbeats 
+              </p>
+              <p>
+          * HeartBeats every {TIME_INTERVAL_PUSH_REFRESH_USER_ACTIVITY} ms
+              </p>
+              <p>
+          * Users are considered inactives if no heartbeats received within 10000 ms
+              </p>
+              <p>
+          * Inactive users are not displayed
+              </p>
+            </div>
+            <UsersContainer 
+              chatroom={this.props.chatroom}
+              newUserActivity={this.state.newUserActivity}
+            />
+          </div>
+        </div>
+
+        <style jsx>{`
+     
+        .container {
+          background: white;
+          text-align: center;
+          padding-top: 30px;
+        }
       `}</style>
 
       </div>

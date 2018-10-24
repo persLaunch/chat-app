@@ -50,6 +50,7 @@ class PushMessage extends Component {
 
           <div className="input-group fluid">
             <textarea 
+              className="text-input-send"
               type="text" 
               id="message_input" 
               placeholder="Enter your message"
@@ -70,10 +71,13 @@ class PushMessage extends Component {
           margin-left: 0px;
           margin-bottom: 10px;
         }
-        
+        .text-input-send{
+          width: 100%;
+        }
         .message-input-box {
           background: #FFFFFF;
           margin: 10px;
+
         }
         
       `}</style>

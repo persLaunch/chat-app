@@ -12,7 +12,8 @@ export default function Modal({ open, closeModal, children }) {
           className="modalCustom"
           style={{
             transform: open ? 'translateY(0)' : 'translateY(-300vh)',
-            opacity: open ? '1' : '0'
+            opacity: open ? '1' : '0',
+            background: '#15222088',
           }}
         >
           {children}
@@ -26,16 +27,17 @@ export default function Modal({ open, closeModal, children }) {
             height: 100vh;
             transition: all 0.3s ease-out;
             overflow: auto;
-            background-color: rgba(255,255,255);
+            border-radius:10px;
 
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-left: 10px;
           }
 
           @media (max-width: 400px) {
             .modalCustom {
-              width: 200px;
+              width: 250px;
             }
           }
         `}</style>

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import LoginMutation from '../../../mutations/login'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-import { saveAccessToken, loadAccessToken } from '../../../utils/cookieUtils'
+import { saveAccessToken } from '../../../utils/cookieUtils'
 
 class LoginForm extends Component {
   static propTypes = {

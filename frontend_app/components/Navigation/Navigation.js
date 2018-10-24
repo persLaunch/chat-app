@@ -18,7 +18,7 @@ export default class Navigation extends Component {
   render() {
     return (
       <span>
-        <header className="sticky nav-bar shadowed">
+        <header className="sticky nav-bar shadowed" >
           <label
             htmlFor="drawer-checkbox"
             className="drawer-toggle"
@@ -107,8 +107,9 @@ export default class Navigation extends Component {
             margin-right: 15px;
           }
           .nav-bar {
-            background: #343f53;
+            background: #1522e0ec;
             display: flex;
+            height: 60px;
             position: fixed;
             width: 100%;
             align-items: center;

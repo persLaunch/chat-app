@@ -79,12 +79,6 @@ class MessagesContainer extends Component {
     return (
         
       <div className="users-box" >
-        <p>
-          * Users are considered inactives if no heartbeats received within {CONSIDERED_INACTIVE_AFTER_THIS_TIMEOUT} ms
-        </p>
-        <p>
-          * Inactive users are not displayed
-        </p>
       
         {Object.values(this.state.activeUsers).map((activeUser) => {
          
@@ -99,7 +93,7 @@ class MessagesContainer extends Component {
                     
                 <Card style={{ textAlign: 'center' }}>
                   <div className="content">
-                    <div >{user.username} vue à {date}</div>
+                    <div >{user.username} vu à {date}</div>
                     <div ></div>
             
                   </div>
