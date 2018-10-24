@@ -9,7 +9,7 @@
     "clean": "rm -rf dist",
     "build": "npm run clean && babel src -s -D -d dist",
     "production": "npm run build && node dist/index.js",
-    "start": "npm production",
+    "start": "npm run build && node dist/index.js",
     "test": "jest"
   },
   "repository": {
