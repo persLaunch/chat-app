@@ -14,6 +14,23 @@ const { Auth } = require('../models');
 
 module.exports = {
 
+
+    comparePassword: async (password, hashPassword) => {
+        
+        try { 
+        
+            const isMatch = await mo_bcrypt.comparePassword(password, hashPassword);
+            
+            if (!isMatch) { throw new Error('Invalid Credentials'); }
+
+            return isMatch;
+        } catch (err) {
+
+            throw err;
+        }
+
+    },
+
     serializeUser: (auth, done) => {
 
         done(null, auth.id);
@@ -34,47 +51,24 @@ module.exports = {
         
     },
 
-    localStrategy: new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+    createLocalStrategy: (comparePassword) => {
 
-        return Auth.findOne({ where: { email: email.toLowerCase() } })
-            .then((auth) => {
-                    
-                return new Promise((resolve, reject) => {
-                
-                    mo_bcrypt.comparePassword(password, auth.password)
-                        .then((isMatch) => {
-
-                            if (isMatch) {
-                                return resolve(auth);
-                            }
+        return new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+        
+            try { 
     
-                            return reject(new Error('Invalid Credentials'));
-    
-                        })
-                        .catch((err) => {
-                    
-                            debug(err);
-                            return reject(err);
-                        });
-                })
-                    .then((auth2) => {
-                   
-                        return done(null, auth2);
-    
-                    })
-                    .catch((err2) => {
+                const auth = await Auth.findOne({ where: { email: email.toLowerCase() } });
+                await comparePassword(password, auth.password);
+                done(null, auth);
             
-                        return done(err2);
-                    });
+            } catch (err) {
     
-            })
-            .catch((err) => {
-
-                return done(err);
-
-            });
-
-    }),
+                done(err);
+            }
+            
+        });
+        
+    },
 
     // Appelé automatiquement dans le middleware qui donne user qui rajoute dans la requête req.auth
     jwtStrategy: new JWTStrategy({

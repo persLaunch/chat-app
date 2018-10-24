@@ -35,7 +35,6 @@ const addChatroomResolvers = {
             }
 
             throw new Error('Not authenticated');
-
         },
 
     },

@@ -99,7 +99,7 @@ function setupPassport(app) {
     // the password might not match the saved one.  In either case, we call the 'done'
     // callback, including a string that messages why the authentication process failed.
     // This string is provided back to the GraphQL client.
-    passport.use(m_passport.localStrategy);
+    passport.use(m_passport.createLocalStrategy(m_passport.comparePassword));
     passport.use(m_passport.jwtStrategy);
 
     // Passport is wired into express as a middleware. When a request comes in,

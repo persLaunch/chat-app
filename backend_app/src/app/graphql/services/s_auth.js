@@ -9,43 +9,41 @@ const { Auth } = require('../../models');
 
 module.exports = { 
 
-    register(userId, email, password) {
+    async register(userId, emailParam, password) {
 
-        return new Promise((resolve, reject) => {
+        const email = emailParam.toLowerCase();
 
-            const credInstance = new Auth({ userId, email, password });
+        const credInstance = new Auth({ userId, email, password });
 
-            if (!email || !password) { return reject(new Error('You must provide an email and password.')); }
-        
-            Auth.findOne({ where: { email } })
-                .then((existingCred) => {
+        if (!email || !password) { throw new Error('You must provide an email and password.'); }
+    
+        try {
 
-                    if (existingCred) { return reject(new Error('Email in use')); }
-
-                    credInstance.save().then((credObject) => {
-
-                        return resolve(credObject.dataValues);
-                    });
-
-                    return null;
-                })
-                .catch((err) => {
-
-                    debug(err);
-                    return reject(new Error('An error occured')); 
-                });
-                  
+            const existingCred = await Auth.findOne({ where: { email } });
             
-            return null;
-        });
+            if (existingCred) { throw new Error('Email in use'); }
+
+            const credObject = await credInstance.save();
+            return credObject.dataValues;
+        
+        } catch (err) {
+            
+            throw err;
+        }
+
     },
 
-    genereteTokenAuth(loginTokenFunction, cred) {
+    generateTokenAuth(loginTokenFunction, email, password) {
+
+        const cred = {
+            email, 
+            password,
+        };
 
         return new Promise((resolve, reject) => {
 
             try {
-                
+
                 loginTokenFunction(cred, { session: false }, (err2) => {
 
                     if (err2) { return reject(new Error('User not found')); }

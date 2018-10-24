@@ -5,8 +5,10 @@ module.exports = {
       "sourceType": "module"
     },
   "env": {
-  "node": true
+  "node": true,
+  "jest/globals": true
   },
+  "plugins": ["jest"],
   "rules": {
       "max-len": ["error", 1000], // Error for ligns containing too much char
       "no-console": 0,

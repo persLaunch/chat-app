@@ -14,31 +14,19 @@ module.exports = {
             signedUpAt: new Date(),
         }).dataValues;
 
-        return new Promise((resolve, reject) => {
 
-            User.findOne({ where: { email: user.email } })
-                .then(async (existingUser) => {
+        try {
+            const existingUser = await User.findOne({ where: { email: user.email } });
+            
+            if (existingUser) { throw new Error('Email in use'); }
 
-                    if (existingUser) { return reject(new Error('Email in use')); }
+            const userDataValues = await User.create(user);
+            return userDataValues.dataValues;
 
-                    try {
-                        const userDataValues = await User.create(user);
-                        return resolve(userDataValues.dataValues);
+        } catch (err) {
 
-                    } catch (err) {
-                        
-                        debug(err);
-                        return reject(new Error('An error occured')); 
-                    }
-
-                })
-                .catch((err) => {
-
-                    debug(err);
-                    return reject(new Error('An error occured')); 
-                });    
-        });
-        
+            throw err; 
+        }
     },
 
     getUserProfile: async (userId) => {

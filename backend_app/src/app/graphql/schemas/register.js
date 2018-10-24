@@ -15,7 +15,7 @@ const registerResolvers = {
                 
                 const user = await s_user.createUser({ email, firstName, lastName, username });
                 const cred = await s_auth.register(user.id, user.email, password);
-                const token = await s_auth.genereteTokenAuth(req.login, cred);
+                const token = await s_auth.generateTokenAuth(req.login, cred.email, cred.password);
 
                 return token;
 
