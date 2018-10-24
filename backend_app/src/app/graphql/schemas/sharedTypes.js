@@ -30,10 +30,10 @@ const sharedTypesTypeDef = `
   }
 
   type UserActivity {
-    status: String
-    user: [User]
+    status: Boolean
+    user: User
     chatroomId: String
-    createdAt: Int,
+    createdAt: Float,
   }
 `;
 

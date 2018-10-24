@@ -14,8 +14,8 @@ const newMessageResolvers = {
         newMessage: {
             subscribe: withFilter(() => pubsub.asyncIterator('newMessage'),
                 (payload, args) => {
-                  
-                    return payload.newMessage.chatroomId === parseInt(args.chatroomId, 10);
+                    
+                    return payload.newMessage.chatroomId.toString() === args.chatroomId.toString();
                 }),
         },
     },

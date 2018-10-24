@@ -1,14 +1,12 @@
 import pubsub from '../subscriptions';
 
-const { Message } = require('../../models');
-
 const s_auth = require('../services/s_auth');
 const s_user = require('../services/s_user');
 
 
 const pushUserActivityTypeDef = `
   extend type Mutation { 
-    pushUserActivity(status: String!, chatroomId: String!): UserActivity
+    pushUserActivity(status: Boolean!, chatroomId: String!): UserActivity
   }
 `;
 

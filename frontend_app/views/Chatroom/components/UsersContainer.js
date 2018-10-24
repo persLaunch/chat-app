@@ -3,18 +3,39 @@ import React, { Component } from 'react'
 import Card from '../../../components/Card/Card'
 import PropTypes from 'prop-types'
 
+const TIME_INTERVAL_LOCAL_REFRESH_USER_RENDER = 9000;
+const CONSIDERED_INACTIVE_AFTER_THIS_TIMEOUT = 10000;
+
+function updateActiveUsers(activeUsersParam, newUserActivity) {
+
+  const activeUsers = { ...activeUsersParam }
+  const someone = newUserActivity.user;
+  const createdAt = new Date(newUserActivity.createdAt);
+  const someoneId = someone.id;
+
+  if(newUserActivity.status) {
+    activeUsers[someoneId] = { user: someone, lastUpdate: createdAt }
+  }
+
+  if(!newUserActivity.status) {
+    delete activeUsers[someoneId]; 
+  }
+
+  return activeUsers
+}
+
+
 class MessagesContainer extends Component {
 
   state =  {
 
     /**
      * activeUsers: {
-     *    iduser1: { user: [USER], lastUpdate: [DATE] }
+     *    iduser1: { user: USER, lastUpdate: DATE }
      *    iduser2: ...
      * }
      */
     activeUsers: {},
-    messages: [],
     time: Date.now(),
   }
 
@@ -24,45 +45,12 @@ class MessagesContainer extends Component {
     newUserActivity: PropTypes.object,
   }
 
-  scrollToBottom = () => {
-    if(this.usersEnd) {
-
-      this.usersEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  }
   
-
-
-  updateActiveUsers = (activeUsersParam, newUserActivity) => {
-
-    const activeUsers = { ...activeUsersParam}
-    const someone = newUserActivity.user;
-    const createdAt = new Date(newUserActivity.createdAt);
-    const someoneId = someone.id;
-
-    if(newUserActivity.status && !Object.keys(activeUsers).include(someoneId)) {
-      activeUsers[someoneId] = { user: someone, lastUpdate: createdAt }
-    }
-
-    if(!newUserActivity.status) {
-      delete activeUsers[someoneId]; 
-    }
-
-    return activeUsers
-  }
-
-  
-  componentDidUpdate() { this.scrollToBottom(); }
-
   componentDidMount() {
-    this.scrollToBottom();
 
-    if(this.props.chatroom) {
-      this.setState({ messages: this.props.chatroom.messages.reverse() })
-    
-    }
-
-    this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
+    this.interval = setInterval(() => {
+      this.setState(() => { return { time: Date.now() }})}, TIME_INTERVAL_LOCAL_REFRESH_USER_RENDER);
+      
   }
 
   componentWillUnmount() {
@@ -71,25 +59,17 @@ class MessagesContainer extends Component {
 
   static getDerivedStateFromProps(props, state) {
   
-    if(props.chatroom && props.newMessage) {
-
-      const newMessages = state.messages.slice()
-      newMessages.push(props.newMessage)
-      return { messages: newMessages }
-
-    }
-
     /**
      * newUserActivity: {
      *        status,
      *        user
      *     }
      */
-    if(props.chatroom && props.data.newUserActivity) {
+    if(props.chatroom && props.newUserActivity) {
 
-      const activeUsers = updateActiveUsers(state.activeUsers, props.data.newUserActivity)
+      const activeUsers = updateActiveUsers(state.activeUsers, props.newUserActivity)
 
-      return { activeUsers : activeUsers, newMessage : props.data.newMessage }
+      return { activeUsers : activeUsers }
     }
   
     return null;
@@ -98,21 +78,28 @@ class MessagesContainer extends Component {
   render() {
     return (
         
-      <div className="messages-box" >
+      <div className="users-box" >
+        <p>
+          * Users are considered inactives if no heartbeats received within {CONSIDERED_INACTIVE_AFTER_THIS_TIMEOUT} ms
+        </p>
+        <p>
+          * Inactive users are not displayed
+        </p>
+      
         {Object.values(this.state.activeUsers).map((activeUser) => {
-
+         
           const { user, lastUpdate } = activeUser
-
-          return 
-          ( lastUpdate.getTime() < (this.state.time - 1000) ?
+   
+          const dateTab = lastUpdate.toString().split(' ')
+          const date = dateTab[0] +' '+dateTab[2] +' '+dateTab[3] +' '+dateTab[4]
+        
+          return ( lastUpdate.getTime() > (this.state.time - CONSIDERED_INACTIVE_AFTER_THIS_TIMEOUT) ?
             <div key={user.id} className="row">
               <div className="col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
                     
                 <Card style={{ textAlign: 'center' }}>
-                  {`${user.username}: ${date}`}
                   <div className="content">
-            
-                    <div >En ligne: {user.status}</div>
+                    <div >{user.username} vue à {date}</div>
                     <div ></div>
             
                   </div>
@@ -124,14 +111,10 @@ class MessagesContainer extends Component {
             
         })}
 
-        <div style={{ float:"left", clear: "both" }}
-          ref={(el) => { this.usersEnd = el; }}>
-        </div>
-
 
         <style jsx>{`
  
-        .messages-box {
+        .users-box {
           height: 200px;
           overflow: scroll;
 

@@ -13,6 +13,8 @@ import subNewMessage from '../../subscriptions/subNewMessage';
 import subNewUserActivity from '../../subscriptions/subNewUserActivity';
 import pushUserActivity from '../../mutations/pushUserActivity';
 
+const TIME_INTERVAL_PUSH_REFRESH_USER_ACTIVITY = 5000;
+
 class Chatroom extends Component {
 
   static propTypes = {
@@ -35,22 +37,16 @@ class Chatroom extends Component {
 
   static getDerivedStateFromProps(props) {
 
-    if(props.data.newMessage) { return { newMessage : props.data.newMessage } }
-    if(props.data.newUserActivity) { return { newUserActivity : props.data.newUserActivity } }
+    if(props.subNewMessage.newMessage) { return { newMessage : props.subNewMessage.newMessage } }
+    if(props.subNewUserActivity.newUserActivity) { 
+      
+      console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
+      return { newUserActivity : props.subNewUserActivity.newUserActivity } }
 
     return null;
   }
 
   
-  componentDidMount() {
-    
-    _pushUserActivity(true)
-  }
-
-  componentWillUnmount() {
-    
-    _pushUserActivity(false)
-  }
 
   _pushUserActivity = async (statusParam) => {
 
@@ -59,8 +55,8 @@ class Chatroom extends Component {
     try{
       await this.props.pushUserActivityMutation({
         variables: {
-          chatroomId,
           status: statusParam,
+          chatroomId,
         }
       })
 
@@ -69,7 +65,27 @@ class Chatroom extends Component {
       alert("Une erreur s'est produite, lors de l'envoi de votre présence aux autres utilisateurs...")
     }
   }
+  
 
+  componentDidMount() {
+
+    this.interval = setInterval(() => {
+      
+      console.log("SEND HEARTBEAT")
+      this._pushUserActivity(true)
+    },TIME_INTERVAL_PUSH_REFRESH_USER_ACTIVITY)
+
+    setTimeout(() => {
+
+      this._pushUserActivity(true)
+    }, 100);
+  }
+
+  componentWillUnmount() {
+    
+    this._pushUserActivity(false)
+    clearInterval(this.interval);
+  }
   render() {
     
     if (this.props.loading) { return <Loader /> }
@@ -87,16 +103,25 @@ class Chatroom extends Component {
             </Card>
           </div>
         </div>
-        <UsersContainer 
-          chatroom={this.props.chatroom}
-          newUserActivity={this.state.newUserActivity}
-        />
         <MessagesContainer 
           chatroom={this.props.chatroom}
           newMessage={this.state.newMessage}
         />
         <PushMessage chatroomId={this.props.chatroomId}/>
       
+        <p>
+          Online users:
+        </p>
+        <p>
+          * Refresh when new users join or leave chat or send/receive heartbeats 
+        </p>
+        <p>
+          * HeartBeats every {TIME_INTERVAL_PUSH_REFRESH_USER_ACTIVITY} ms
+        </p>
+        <UsersContainer 
+          chatroom={this.props.chatroom}
+          newUserActivity={this.state.newUserActivity}
+        />
         <style jsx>{`
         .content {
           font-size: 20px;
@@ -116,6 +141,10 @@ class Chatroom extends Component {
 export default compose(
   graphql(subNewMessage, {
 
+    props: (props) => {
+      return {
+        subNewMessage: props.data,
+      }},
     options: (props) => {
       return {
         variables: { 
@@ -127,6 +156,10 @@ export default compose(
   ),
   graphql(subNewUserActivity, {
 
+    props: (props) => {
+      return {
+        subNewUserActivity: props.data,
+      }},
     options: (props) => {
       return {
         variables: { 

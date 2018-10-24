@@ -55,7 +55,6 @@ const schema = makeExecutableSchema({
     typeDefs: [
         rootSchema,
         sharedTypes.sharedTypesTypeDef,
-     
 
         register.registerTypeDef,
         login.loginTypeDef,
@@ -68,7 +67,7 @@ const schema = makeExecutableSchema({
         newMessage.newMessageTypeDef,
         pushMessage.pushMessageTypeDef,
         newUserActivity.newUserActivityTypeDef,
-        newUserActivity.newUserActivityTypeDef,
+        pushUserActivity.pushUserActivityTypeDef,
 
 
     ],
@@ -87,7 +86,7 @@ const schema = makeExecutableSchema({
         newMessage.newMessageResolvers,
         pushMessage.pushMessageResolvers,
         newUserActivity.newUserActivityResolvers,
-        newUserActivity.newUserActivityResolvers,
+        pushUserActivity.pushUserActivityResolvers,
     ),
 });
 

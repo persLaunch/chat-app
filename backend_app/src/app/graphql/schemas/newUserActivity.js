@@ -15,8 +15,9 @@ const newUserActivityResolvers = {
             subscribe: withFilter(() => pubsub.asyncIterator('newUserActivity'),
                 (payload, args) => {
                   
-                    return payload.newUserActivity.chatroomId === parseInt(args.chatroomId, 10);
+                    return payload.newUserActivity.chatroomId.toString() === args.chatroomId.toString();
                 }),
+                
         },
     },
 };
