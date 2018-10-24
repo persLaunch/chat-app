@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 
+const initDatabase = require('./init/init_database');
 const app_config = require('../../config');
 
 const basename = path.basename(__filename);
@@ -42,14 +43,10 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// Initialization for prototyping...
 sequelize.sync({ force: app_config.SEQUELIZE_SYNC_FORCE }).then(() => { 
 
-    if (app_config.SEQUELIZE_SYNC_FORCE) {
-
-        db.Chatroom.create({ title: 'Default Chatroom' });
-    }
+    /* Initialization de la base de donnée */
+    initDatabase.init(db);
 });
-// sequelize.sync();
 
 module.exports = db;
