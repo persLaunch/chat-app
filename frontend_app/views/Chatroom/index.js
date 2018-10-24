@@ -25,6 +25,8 @@ class Chatroom extends Component {
 
     newMessage: null,
   }
+
+
   static getDerivedStateFromProps(props) {
 
     console.log("props", props)
@@ -33,23 +35,7 @@ class Chatroom extends Component {
 
       return { newMessage : props.data.newMessage }
     }
-    /*if(props.getChatroom && props.chatroom) {
-      
-      const newMessage = props.data.newMessage
-
-      if(getChatroom.chatroom.includes(newMessage.id))
-      props.getChatroom = update(props.getChatroom, { // On merge previousResult et le nouveau objet
-        chatroom: {
-          messages: {
-            $push: [props.data.messageToAdd],
-          },
-        },
-      });
-
-      // # TODO to be improve -> merge directly in gql store cache with newMessage in param
-      // props.getChatroom.refetch();
-    }*/
-
+ 
     return null;
   }
 
@@ -77,7 +63,7 @@ class Chatroom extends Component {
         <MessagesContainer 
           chatroom={this.props.chatroom}
           newMessage={this.state.newMessage}
-         />
+        />
         <PushMessage chatroomId={this.props.chatroomId}/>
       
         <style jsx>{`
