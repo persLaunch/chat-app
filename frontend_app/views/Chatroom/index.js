@@ -21,14 +21,36 @@ class Chatroom extends Component {
     getChatroom: PropTypes.object,
   }
 
-  UNSAFE_componentWillReceiveProps({ data: { newMessage } }) {
+  state = {
 
-    if(this.props.getChatroom) {
+    newMessage: null,
+  }
+  static getDerivedStateFromProps(props) {
+
+    console.log("props", props)
+
+    if(props.data.newMessage) {
+
+      return { newMessage : props.data.newMessage }
+    }
+    /*if(props.getChatroom && props.chatroom) {
+      
+      const newMessage = props.data.newMessage
+
+      if(getChatroom.chatroom.includes(newMessage.id))
+      props.getChatroom = update(props.getChatroom, { // On merge previousResult et le nouveau objet
+        chatroom: {
+          messages: {
+            $push: [props.data.messageToAdd],
+          },
+        },
+      });
 
       // # TODO to be improve -> merge directly in gql store cache with newMessage in param
-      this.props.getChatroom.refetch();
-    }
+      // props.getChatroom.refetch();
+    }*/
 
+    return null;
   }
 
   render() {
@@ -52,7 +74,10 @@ class Chatroom extends Component {
           </div>
         </div>
 
-        <MessagesContainer chatroom={this.props.chatroom} />
+        <MessagesContainer 
+          chatroom={this.props.chatroom}
+          newMessage={this.state.newMessage}
+         />
         <PushMessage chatroomId={this.props.chatroomId}/>
       
         <style jsx>{`

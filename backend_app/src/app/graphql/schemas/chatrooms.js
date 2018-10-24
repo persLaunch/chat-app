@@ -14,24 +14,23 @@ const chatroomsResolvers = {
     Query: {
         chatrooms: async (_, args, req) => {
 
-            let chatrooms = [];
-
+            console.log(req.auth);
             if (s_auth.isAuth(req)) { 
 
                 try {
                     
-                    chatrooms = await Chatroom.findAll();
+                    const chatrooms = await Chatroom.findAll();
                         
                     return chatrooms;
 
                 } catch (err) {
 
                     console.log(err);
-                    return err;
+                    throw new Error('Error when fetching chatrooms');
                 }
             }
 
-            return chatrooms;
+            throw new Error('Not authenticated');
         },
     },
 };

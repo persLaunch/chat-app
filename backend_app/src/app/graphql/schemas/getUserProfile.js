@@ -11,21 +11,20 @@ const getUserProfileResolvers = {
     Query: {
         getUserProfile: async (_, args, req) => {
 
-            let user = {};
-
             if (s_auth.isAuth(req)) { 
 
                 try {
 
                     const { userId } = req.auth;
-                    user = await s_user.getUserProfile(userId);
+                    const user = await s_user.getUserProfile(userId);
+                    return user;
                 } catch (err) {
                     
-                    user = {};
+                    throw new Error('Error when fetching user profil');
                 }
             }
 
-            return user;
+            throw new Error('Not authenticated');
         
         },
     },

@@ -41,11 +41,11 @@ const pushMessageResolvers = {
                 } catch (err) {
 
                     console.log(err);
-                    return err;
+                    throw new Error('Error on message creation');
                 }
             }
 
-            return {};
+            throw new Error('Not authenticated');
 
         },
 

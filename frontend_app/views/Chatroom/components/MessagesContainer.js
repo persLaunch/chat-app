@@ -5,9 +5,15 @@ import PropTypes from 'prop-types'
 
 class MessagesContainer extends Component {
 
+  state =  {
+
+    messages: [],
+  }
+
   static propTypes = {
 
     chatroom: PropTypes.object,
+    newMessage: PropTypes.object,
   }
 
   scrollToBottom = () => {
@@ -17,14 +23,35 @@ class MessagesContainer extends Component {
     }
   }
   
-  componentDidMount() { this.scrollToBottom(); }
   componentDidUpdate() { this.scrollToBottom(); }
+
+  componentDidMount() {
+    this.scrollToBottom();
+
+    if(this.props.chatroom) {
+      this.setState({ messages: this.props.chatroom.messages.reverse() })
+    
+    }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+  
+    if(props.chatroom && props.newMessage) {
+
+      const newMessages = state.messages.slice()
+      newMessages.push(props.newMessage)
+      return { messages: newMessages }
+
+    }
+  
+    return null;
+  }
 
   render() {
     return (
         
       <div className="messages-box" >
-        {this.props.chatroom.messages.slice(0).reverse().map((message) => {
+        {this.state.messages.slice(0).map((message) => {
           const dateTab =  message.createdAt.split(' ')
           const date = dateTab[0] +' '+dateTab[2] +' '+dateTab[3] +' '+dateTab[4]
           return (

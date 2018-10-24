@@ -30,11 +30,11 @@ const addChatroomResolvers = {
                 } catch (err) {
 
                     console.log(err);
-                    return err;
+                    throw new Error('Error on creation');
                 }
             }
 
-            return {};
+            throw new Error('Not authenticated');
 
         },
 

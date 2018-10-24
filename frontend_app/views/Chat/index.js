@@ -48,7 +48,7 @@ class Chat extends Component {
         }) }
 
         <AddChatroomButton 
-        user={this.props.user}/>
+          user={this.props.user}/>
         <style jsx>{`
          
         `}</style>

@@ -21,7 +21,7 @@ const registerResolvers = {
             } catch (err) {
 
                 console.log(err);
-                return err;
+                throw new Error('Error on registering');
             }
 
         },
