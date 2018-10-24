@@ -76,7 +76,7 @@ Le frontend est maintenant lancé sur le port 3000.
 
 -----
 # Test instruction
-[Instruction for testing functionalities](http://breakdance.io)
+[Instruction for testing functionalities](https://poce-my.sharepoint.com/:w:/g/personal/vincent_lim_edu_ece_fr/EQwzi_dBgApEoMYPTUqVnWMBOSzFypHF9o7NiJSDvcvSYg?e=Dn4Lql)
 
 # License
 
