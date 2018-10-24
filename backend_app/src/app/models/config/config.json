@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "app_db_dev",
+    "username": "superkraken",
+    "password": "superkraken",
+    "database": "db_chat_app",
     "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": false
