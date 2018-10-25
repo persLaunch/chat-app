@@ -41,13 +41,18 @@ class Chatroom extends Component {
 
   static getDerivedStateFromProps(props) {
 
-    if(props.subNewMessage.newMessage) { return { newMessage : props.subNewMessage.newMessage } }
-    if(props.subNewUserActivity.newUserActivity) { 
-      
-      // console.log("RECEIVE HEARTBEAT from ", props.subNewUserActivity.newUserActivity)
-      return { newUserActivity : props.subNewUserActivity.newUserActivity } }
+    let newMessage = null;
+    let newUserActivity = null;
 
-    return null;
+    if(props.subNewMessage.newMessage) { 
+      newMessage = props.subNewMessage.newMessage  
+    }
+
+    if(props.subNewUserActivity.newUserActivity) { 
+      newUserActivity = props.subNewUserActivity.newUserActivity
+    }
+
+    return { newMessage, newUserActivity };
   }
 
   
